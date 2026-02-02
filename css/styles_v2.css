@@ -697,11 +697,14 @@ body.theme-dark #home-zmanim-container td {
     color: white !important;
 }
 
-/* Footer Styling Fix */
+/* Footer Styling - Enhanced */
 .app-footer {
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
 }
 
 body.theme-parchment .app-footer {
@@ -709,10 +712,89 @@ body.theme-parchment .app-footer {
 }
 
 .footer-links a {
-    color: inherit;
+    color: #ffffff;
     text-decoration: none;
-    margin: 0 10px;
-    font-size: 0.9rem;
+    margin: 0 15px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.footer-links a:hover {
+    color: #fbbf24;
+    transform: translateY(-2px);
+}
+
+/* Newsletter Section */
+.newsletter-section {
+    margin-top: 25px;
+}
+
+.newsletter-section p {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+}
+
+.newsletter-section input[type="email"] {
+    padding: 12px 15px !important;
+    border-radius: 10px !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    width: 250px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.newsletter-section input[type="email"]:focus {
+    outline: none !important;
+    border-color: rgba(251, 191, 36, 0.6) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.newsletter-section input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.newsletter-section button[type="submit"] {
+    padding: 12px 24px !important;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4) !important;
+}
+
+.newsletter-section button[type="submit"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6) !important;
+}
+
+/* Search Bar - Enhanced */
+.search-bar-container {
+    margin-bottom: 25px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 15px 20px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid rgba(96, 165, 250, 0.4) !important;
+}
+
+.search-bar-container:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+    border-color: rgba(147, 197, 253, 0.6) !important;
+}
+
+.search-bar-container span {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
 }
 
 .accent-link {
