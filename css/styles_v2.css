@@ -27,6 +27,8 @@ body {
     overflow-x: hidden;
     transition: background 0.3s, color 0.3s;
     height: 100%;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #ffffff;
 }
 
 /* App Container for Sticky Footer */
@@ -58,66 +60,68 @@ body {
 
 /* --- THEMES (2 modes: Dark & Light) --- */
 
-/* 1. DARK MODE - White on Dark Blue */
+/* 1. DARK MODE - Improved with better colors and contrast */
 body.theme-dark {
-    background-color: #0f172a;
-    color: #f8fafc;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #ffffff;
 }
 
 body.theme-dark .navbar {
-    background: #0f172a;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: #f8fafc;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
 }
 
 body.theme-dark .navbar .time-display,
 body.theme-dark .navbar .quote-text,
 body.theme-dark .navbar .bsd-text {
-    color: #f8fafc !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.theme-dark .header-controls button {
-    background: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 body.theme-dark .header-controls button:hover {
-    background: #3b82f6;
+    background: rgba(255, 255, 255, 0.3);
     color: white;
 }
 
 body.theme-dark .card,
 body.theme-dark .glass-card {
-    background: #1e293b;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #f8fafc;
+    background: rgba(30, 58, 138, 0.5);
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    color: #ffffff;
 }
 
 body.theme-dark .card h3 {
-    color: #60a5fa;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 body.theme-dark .prayer-content-wrapper {
-    background: #1e293b;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #f8fafc;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(30, 58, 138, 0.5);
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 body.theme-dark .prayer-header {
     color: #60a5fa;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 body.theme-dark #home-zmanim-container {
-    background: #1e293b !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #f8fafc;
+    background: rgba(30, 58, 138, 0.5) !important;
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    color: #ffffff;
 }
 
 body.theme-dark .weather-card {
-    background: #1e293b !important;
+    background: rgba(30, 58, 138, 0.5) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 

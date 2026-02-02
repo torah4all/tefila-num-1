@@ -57,13 +57,13 @@
     <!-- Inline Critical CSS -->
 
     <style>
-        /* Force visibility defaults - Dark Mode */
+        /* Force visibility defaults - Improved Dark Mode */
 
         body {
 
-            background-color: #0f172a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
 
-            color: #f8fafc;
+            color: #ffffff;
 
         }
 
@@ -80,7 +80,7 @@
     <style>
         /* IMPROVED HEADER: Modern, clean design with better spacing */
         header.navbar {
-            height: 100px !important;
+            height: 70px !important;
             display: flex !important;
             align-items: center !important;
             z-index: 9999 !important;
@@ -89,16 +89,16 @@
             top: 0 !important;
             left: 0 !important;
             right: 0 !important;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
-            border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-            padding: 0 20px !important;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%) !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+            padding: 0 15px !important;
         }
 
-        /* Content spacing to clear enhanced header */
+        /* Content spacing to clear enhanced header - REDUCED GAP */
         #main-container,
         .content-area {
-            margin-top: 110px !important;
+            margin-top: 75px !important;
             padding-top: 0 !important;
             padding-bottom: 80px !important;
         }
@@ -112,14 +112,33 @@
 
         /* ENHANCED CLOCK: Better visibility and styling */
         .clock-wrapper {
-            transform: scale(0.75) !important;
+            transform: scale(0.65) !important;
             transform-origin: center center !important;
             margin: 0 !important;
-            padding: 10px 20px !important;
-            max-width: 220px !important;
-            background: rgba(59, 130, 246, 0.1) !important;
-            border-radius: 12px !important;
-            border: 1px solid rgba(96, 165, 250, 0.3) !important;
+            padding: 8px 15px !important;
+            max-width: 200px !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* IMPROVED TIME DISPLAY - BETTER CONTRAST */
+        .time-display,
+        #header-time {
+            color: #ffffff !important;
+            font-size: 1.1rem !important;
+            font-weight: 700 !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* IMPROVED DATE AND TEXT - BETTER VISIBILITY */
+        .clock-text,
+        #header-date,
+        #header-hebrew-date,
+        #zman-countdown,
+        #daily-quote {
+            color: #ffffff !important;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
         }
 
         /* IMPROVED LOGO: Better sizing and hover effect */
@@ -133,37 +152,38 @@
         }
 
         #app-logo {
-            height: 85px !important;
+            height: 60px !important;
             width: auto !important;
             max-height: none !important;
-            filter: drop-shadow(0 2px 8px rgba(96, 165, 250, 0.3)) !important;
+            filter: brightness(1.1) drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3)) !important;
         }
 
         /* ENHANCED HEADER CONTROLS: Better button styling */
         .header-controls button {
-            padding: 8px 12px !important;
+            padding: 6px 10px !important;
             border-radius: 8px !important;
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
             font-weight: 600 !important;
             transition: all 0.2s ease !important;
-            border: 1px solid rgba(96, 165, 250, 0.4) !important;
-            background: rgba(59, 130, 246, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
         }
 
         .header-controls button:hover {
-            background: rgba(59, 130, 246, 0.3) !important;
+            background: rgba(255, 255, 255, 0.3) !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
         }
 
-        /* ENHANCED BSD TEXT: More prominent */
+        /* ENHANCED BSD TEXT: More prominent and visible */
         .bsd-text {
-            font-size: 1.3rem !important;
+            font-size: 1.2rem !important;
             font-weight: 700 !important;
             color: #fbbf24 !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-            margin-right: 15px !important;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+            margin-right: 12px !important;
         }
 
         /* FONT SIZE: ONLY affects actual prayer text paragraphs - NOT titles, options, or instructions */
@@ -262,22 +282,48 @@
             justify-content: center;
         }
 
-        /* ENHANCED CARDS: Modern glass-morphism design */
+        /* ENHANCED CARDS: Modern glass-morphism design with better contrast */
         .card,
         .glass-card {
-            background: rgba(30, 41, 59, 0.8) !important;
+            background: rgba(30, 58, 138, 0.5) !important;
             backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(96, 165, 250, 0.2) !important;
+            border: 2px solid rgba(96, 165, 250, 0.4) !important;
             border-radius: 16px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
             transition: all 0.3s ease !important;
         }
 
         .card:hover,
         .glass-card:hover {
             transform: translateY(-4px) !important;
-            box-shadow: 0 12px 40px rgba(96, 165, 250, 0.3) !important;
-            border-color: rgba(96, 165, 250, 0.5) !important;
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5) !important;
+            border-color: rgba(147, 197, 253, 0.6) !important;
+            background: rgba(30, 58, 138, 0.7) !important;
+        }
+
+        /* BETTER TEXT VISIBILITY ON CARDS */
+        .card h3,
+        .glass-card h3,
+        .card p,
+        .glass-card p {
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .hebrew-text {
+            color: #fbbf24 !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* SECTION HEADERS - BETTER VISIBILITY */
+        .section-header,
+        h3.section-header {
+            color: #60a5fa !important;
+            font-size: 1.3rem !important;
+            font-weight: 700 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+            margin-top: 30px !important;
+            margin-bottom: 20px !important;
         }
 
         /* CARD SPLIT ACTION STYLES: Enhanced appearance */
