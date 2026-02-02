@@ -1,0 +1,489 @@
+﻿/* ========================================
+   COMPREHENSIVE UI FIXES
+   ======================================== */
+
+/* 1. PADDING - Content not touching edges */
+.content-area {
+    padding: 20px !important;
+}
+
+#prayer-text,
+.prayer-content-wrapper {
+    padding: 20px !important;
+    margin: 10px !important;
+}
+
+/* 2. CONTROL BUTTONS - Under clock */
+.header-controls-below-clock {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.header-controls-below-clock button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* 3. HAMBURGER MENU */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background: currentColor;
+    border-radius: 2px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background: #1e293b;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+}
+
+.sidebar-overlay.open {
+    display: block;
+}
+
+.sidebar-nav a {
+    display: block;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.sidebar-nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 4. LOGO COLORS */
+body.theme-dark .app-logo {
+    filter: brightness(0) invert(1) !important;
+    /* White */
+}
+
+body.theme-light .app-logo {
+    filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(200deg) !important;
+    /* Dark Blue */
+}
+
+/* 5. WIDGET ALIGNMENT */
+.home-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    align-items: start !important;
+}
+
+.welcome-banner {
+    display: none !important;
+}
+
+/* Parchment background for prayer text */
+.parchment-active #prayer-text,
+.parchment-active .prayer-content-wrapper {
+    background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+    color: #3d2c1e !important;
+    border: 1px solid #c4a775 !important;
+    box-shadow: inset 0 0 30px rgba(139, 105, 60, 0.15) !important;
+}
+
+.parchment-active #prayer-text *,
+.parchment-active .prayer-content-wrapper * {
+    color: #3d2c1e !important;
+}
+
+
+/* === PARCHMENT FIX - Direct styles on prayer elements === */
+body.parchment-active .prayer-content-wrapper,
+body.parchment-active #prayer-text,
+body.parchment-active .prayer-view,
+body.parchment-active #prayer-view {
+    background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+    background-image: url('data:image/svg+xml,<svg xmlns=" http://www.w3.org/2000/svg\ width=\200\ height=\200\><rect fill=\%23f4ead5\ width=\200\ height=\200\/><circle fill=\%23e8dcc0\ cx=\100\ cy=\100\ r=\80\ opacity=\0.3\/></svg>') !important;
+    color: #3d2c1e !important;
+    border: 2px solid #c4a775 !important;
+    box-shadow: inset 0 0 40px rgba(139, 105, 60, 0.2) !important;
+    padding: 25px !important;
+    border-radius: 10px !important;
+}
+
+body.parchment-active .prayer-content-wrapper *,
+body.parchment-active #prayer-text *,
+body.parchment-active .hebrew-text {
+    color: #3d2c1e !important;
+}
+
+/* Logo size */
+.app-logo {
+    height: 150px !important;
+    width: auto !important;
+}
+
+/* === REMOVE EXCESS BORDERS & IMPROVE CONTRAST === */
+
+/* Remove borders from cards */
+.card,
+.glass-card {
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* High contrast text */
+.card h3,
+.glass-card h3 {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.card p,
+.glass-card p {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.section-header {
+    color: #60a5fa !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+}
+
+/* Icon visibility */
+.icon {
+    font-size: 2rem !important;
+    opacity: 1 !important;
+}
+
+/* Bdi Avad box - more visible */
+#bdi-avad-display {
+    background: rgba(251, 191, 36, 0.3) !important;
+    border: 2px solid #fbbf24 !important;
+    margin-top: 20px !important;
+    padding: 15px !important;
+}
+
+#bdi-avad-display strong {
+    color: #fbbf24 !important;
+    font-size: 0.9rem !important;
+}
+
+#bdi-avad-time {
+    color: #ffffff !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+}
+
+/* === LOGO THEME SWITCHING === */
+
+/* Logo wrapper */
+.logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Force logo size */
+.app-logo {
+    height: 60px !important;
+    width: auto !important;
+    filter: none !important;
+}
+
+/* Hide logos by default */
+.logo-for-light,
+.logo-for-dark {
+    display: none;
+}
+
+/* Dark mode: show dark logo (white text) */
+body.theme-dark .logo-for-dark {
+    display: block;
+}
+
+/* Light mode: show light logo (dark text) */
+body.theme-light .logo-for-light {
+    display: block;
+}
+
+/* Default (no theme class): show dark logo */
+body:not(.theme-light):not(.theme-dark) .logo-for-dark {
+    display: block;
+}
+
+/* Tagline styling */
+.tagline {
+    font-size: 12px !important;
+    font-style: italic !important;
+    opacity: 0.8;
+    margin-top: 2px;
+    color: inherit;
+}
+
+body.theme-dark .tagline {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.theme-light .tagline {
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Tagline - exact styling */
+.tagline {
+    font-size: 12px !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Header/Navbar Layout */
+.navbar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+}
+
+/* Dark Mode header background */
+body.theme-dark .navbar {
+    background-color: #0f172a !important;
+}
+
+/* Light Mode header background */
+body.theme-light .navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* === MODERN COLOR THEME === */
+
+/* Dark Mode - Midnight Slate */
+body.theme-dark {
+    background-color: #0F172A !important;
+    color: #F1F5F9 !important;
+}
+
+body.theme-dark .content-area {
+    background-color: #0F172A !important;
+}
+
+/* Light Mode - Ceramic White */
+body.theme-light {
+    background-color: #F8FAFC !important;
+    color: #1E293B !important;
+}
+
+body.theme-light .content-area {
+    background-color: #F8FAFC !important;
+}
+
+/* Card text contrast */
+body.theme-dark .card h3,
+body.theme-dark .glass-card h3 {
+    color: #FFFFFF !important;
+}
+
+body.theme-dark .card p,
+body.theme-dark .glass-card p {
+    color: #CBD5E1 !important;
+}
+
+body.theme-light .card h3,
+body.theme-light .glass-card h3 {
+    color: #1E293B !important;
+}
+
+body.theme-light .card p,
+body.theme-light .glass-card p {
+    color: #475569 !important;
+}
+
+/* Section headers */
+body.theme-dark .section-header {
+    color: #60A5FA !important;
+}
+
+body.theme-light .section-header {
+    color: #1E40AF !important;
+}
+
+/* === LAYOUT PADDING & WIDGET ALIGNMENT === */
+
+/* Main container padding */
+.container,
+.content-area,
+#main-container {
+    padding: 0 20px !important;
+}
+
+/* Widget row alignment */
+.home-container {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+}
+
+.home-left,
+.home-right {
+    align-self: flex-start !important;
+    margin-top: 0 !important;
+}
+
+/* Weather and Zmanim widgets */
+.weather-section,
+#home-zmanim-container {
+    margin-top: 0 !important;
+}
+
+/* === HEBREW FONT (Assistant) === */
+
+/* Apply Assistant font to Hebrew text */
+.hebrew-text,
+#prayer-text,
+.prayer-content,
+.prayer-content-wrapper,
+#header-hebrew-date,
+[lang='he'],
+[dir='rtl'] {
+    font-family: 'Assistant', 'Amiri', sans-serif !important;
+}
+
+/* === WEATHER & ZMANIM WIDGET LAYOUT FIX === */
+
+.home-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    flex-wrap: wrap !important;
+}
+
+.home-left,
+.home-right {
+    flex: 1 !important;
+    min-width: 300px !important;
+    align-self: flex-start !important;
+}
+
+#home-zmanim-container {
+    margin-top: 0 !important;
+}
+
+.weather-section {
+    margin-top: 0 !important;
+}
+
+/* === LOGO 70px & TAGLINE 12px === */
+#app-logo {
+    height: 70px !important;
+    width: auto !important;
+}
+
+.tagline {
+    font-size: 12px !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+    margin-top: 2px !important;
+    display: block !important;
+}
+
+.logo-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+}
+
+/* === LOGO MATCHES CLOCK HEIGHT === */
+.logo-wrapper {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 
+#app-logo {
+    height: 80px !important;
+     width: auto !important; 
+} 
+*/
+
+/* Clock wrapper reference height */
+.clock-wrapper {
+    min-height: 80px !important;
+}
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* === FORCE LOGO 120px === 
+#app-logo {
+    height: 120px !important;
+    width: auto !important;
+    max-height: 120px !important;
+    min-height: 120px !important;
+}
+*/
+
+.logo-wrapper {
+    align-items: center !important;
+}
+
+/* === BIGGER HEBREW DATE === */
+#header-hebrew-date {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+}
+
+#header-date {
+    font-size: 0.9rem !important;
+}
+
+/* === FORCE LOGO 70px === 
+#app-logo {
+    height: 70px !important;
+    width: auto !important;
+    max-height: 70px !important;
+    min-height: 70px !important;
+}
+*/

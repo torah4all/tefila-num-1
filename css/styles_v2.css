@@ -1,0 +1,1718 @@
+﻿:root {
+    --bg-dark: #0f172a;
+    --bg-light: #f1f5f9;
+    --text-dark: #f8fafc;
+    --text-light: #1e293b;
+
+    /* Blue/White/Gray only - NO yellow or cyan */
+    --accent-blue: #3b82f6;
+    --accent-light-blue: #60a5fa;
+    --primary-gold: #60a5fa;
+    /* Kept for backwards compatibility - now blue */
+    --glass-border: rgba(255, 255, 255, 0.1);
+
+    --font-hebrew: 'Amiri', serif;
+    --font-ui: 'Inter', sans-serif;
+    --font-size-base: 1.6rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
+    height: 100%;
+}
+
+/* App Container for Sticky Footer */
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+}
+
+.content-area {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px 20px 15px;
+    /* NO top padding */
+}
+
+/* Weather Widget Card */
+.weather-card {
+    border: 1px solid var(--glass-border);
+    transition: transform 0.2s;
+    background: #1e293b !important;
+    border-radius: 10px;
+}
+
+.weather-card:hover {
+    transform: translateY(-2px);
+}
+
+/* --- THEMES (2 modes: Dark & Light) --- */
+
+/* 1. DARK MODE - White on Dark Blue */
+body.theme-dark {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+body.theme-dark .navbar {
+    background: #0f172a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+}
+
+body.theme-dark .navbar .time-display,
+body.theme-dark .navbar .quote-text,
+body.theme-dark .navbar .bsd-text {
+    color: #f8fafc !important;
+}
+
+body.theme-dark .header-controls button {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+body.theme-dark .header-controls button:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+body.theme-dark .card,
+body.theme-dark .glass-card {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+}
+
+body.theme-dark .card h3 {
+    color: #60a5fa;
+}
+
+body.theme-dark .prayer-content-wrapper {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-dark .prayer-header {
+    color: #60a5fa;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.theme-dark #home-zmanim-container {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+}
+
+body.theme-dark .weather-card {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Theme Adaptive Widget Toggling */
+body.theme-dark .theme-parchment-only {
+    display: none !important;
+}
+
+body.theme-parchment .theme-dark-only {
+    display: none !important;
+}
+
+body.theme-parchment .theme-parchment-only {
+    display: block !important;
+}
+
+body.theme-dark .welcome-banner h1 {
+    color: #60a5fa;
+}
+
+body.theme-dark .welcome-banner p {
+    color: #94a3b8;
+}
+
+/* 2. LIGHT MODE - Dark text on White/Gray */
+body.theme-parchment {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}
+
+body.theme-parchment .navbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-parchment .navbar .time-display,
+body.theme-parchment .navbar .quote-text,
+body.theme-parchment .navbar .bsd-text {
+    color: #1e293b !important;
+}
+
+body.theme-parchment .header-controls button {
+    background: #e2e8f0;
+    color: #1e3a5f;
+    border: 1px solid #cbd5e1;
+}
+
+body.theme-parchment .header-controls button:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+body.theme-parchment .card,
+body.theme-parchment .glass-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-parchment .card h3 {
+    color: #1e3a5f;
+}
+
+body.theme-parchment .prayer-content-wrapper {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+body.theme-parchment .prayer-header {
+    color: #1e3a5f;
+    border-color: #e2e8f0;
+}
+
+/* Light mode - Keep zmanim dark for visibility */
+body.theme-parchment #home-zmanim-container {
+    background: #1e293b !important;
+    border: 1px solid #334155;
+    color: #f8fafc !important;
+}
+
+body.theme-parchment #home-zmanim-container * {
+    color: #f8fafc !important;
+}
+
+body.theme-parchment .weather-card {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+}
+
+body.theme-parchment .welcome-banner h1 {
+    color: #1e3a5f;
+}
+
+body.theme-parchment .welcome-banner p {
+    color: #64748b;
+}
+
+
+/* Layout */
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+}
+
+.content-area {
+    /* flex: 1 removed to fix gap */
+    padding: 0 15px 20px 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Header */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 0;
+    /* NO GAP */
+    min-height: 80px;
+    /* Taller header */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* flex: 1 removed to fix gap */
+}
+
+/* Logo - Clean Blended Style */
+.app-logo {
+    height: 100px;
+    width: auto;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: opacity 0.2s;
+    background: transparent;
+}
+
+.app-logo:hover {
+    opacity: 0.9;
+}
+
+/* Logo adapts to theme - INVERT for dark backgrounds */
+body.theme-dark .app-logo {
+    filter: brightness(0) invert(1); /* White logo in dark mode */
+}
+
+/* Light mode - keep logo normal (black on white) */
+body.theme-parchment .app-logo {
+    filter: none;
+}
+
+/* Clock & Center - More Prominent */
+.clock-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-bottom: 4px;
+    border: 2px solid var(--primary-gold);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-dark .clock-wrapper {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+}
+
+body.theme-parchment .clock-wrapper {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    border-color: #fbbf24;
+}
+
+/* Analog Clock CSS */
+.clock-face {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+body.theme-dark .clock-face {
+    background: #2a2a2a;
+    border-color: #d4af37;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    background: #333;
+    border-radius: 2px;
+}
+
+body.theme-dark .hand {
+    background: #eee;
+}
+
+.hour-hand {
+    width: 3px;
+    height: 12px;
+    margin-left: -1.5px;
+    background: #000;
+}
+
+body.theme-dark .hour-hand {
+    background: #fff;
+}
+
+.minute-hand {
+    width: 2px;
+    height: 16px;
+    margin-left: -1px;
+    background: #555;
+}
+
+body.theme-dark .minute-hand {
+    background: #ccc;
+}
+
+.second-hand {
+    width: 1px;
+    height: 18px;
+    margin-left: -0.5px;
+    background: red;
+}
+
+.center-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.time-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+    min-width: 130px;
+    text-align: center;
+}
+
+.quote-text {
+    font-size: 0.8rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Parasha View Styles */
+.featured-gold {
+    border: 1px solid #d4af37 !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 255, 255, 0.05)) !important;
+}
+
+.parasha-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .parasha-content-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.parasha-section,
+.parasha-extras,
+.parasha-resources {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 15px;
+}
+
+.parasha-section h3 {
+    border-bottom: 2px solid var(--primary-gold);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    color: var(--primary-gold);
+}
+
+/* Utilities */
+.text-center {
+    text-align: center !important;
+}
+
+/* Filter for Zmanim Embed to blend better */
+iframe {
+    /* Slightly lower contrast to blend with glass if possible, 
+       but we can't style inside content. 
+       This styling mainly affects the iframe element itself. */
+    opacity: 0.95;
+    border-radius: 8px;
+}
+
+/* Header Right */
+.header-right-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* flex: 1 removed to fix gap */
+    gap: 5px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.header-controls button {
+    background: rgba(255, 255, 255, 0.1);
+    /* Subtle background */
+    border: 1px solid var(--glass-border);
+    color: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    /* Softer radius */
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.header-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Back Button */
+#back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    color: inherit;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    /* Circle button */
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Home Layout - Two Columns */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* Minimal gap */
+}
+
+/* Desktop: Side by Side */
+@media (min-width: 768px) {
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        gap: 15px;
+    }
+}
+
+/* Welcome Banner - Compact */
+.welcome-banner {
+    margin: 0 !important;
+    padding: 5px 0;
+}
+
+.welcome-banner h1 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.welcome-banner p {
+    margin: 2px 0 0 0;
+    font-size: 0.85rem;
+}
+
+/* Weather Section - Minimal spacing */
+.weather-section {
+    margin: 0 0 5px 0 !important;
+}
+
+.weather-card {
+    margin-bottom: 5px !important;
+}
+
+/* Section Headers - Compact */
+.section-header {
+    margin: 8px 0 5px 0 !important;
+    padding-bottom: 5px;
+    font-size: 0.85rem;
+    color: #60a5fa;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body.theme-parchment .section-header {
+    color: #1e3a5f;
+    border-color: rgba(30, 58, 95, 0.3);
+}
+
+.home-left,
+.home-right {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    /* Align tops */
+}
+
+/* Ensure grid menu has no top margin */
+.grid-menu {
+    margin-top: 0 !important;
+}
+
+/* Zmanim Container - Modern Dark Style */
+#home-zmanim-container {
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border-radius: 16px;
+    max-height: 520px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-top: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#home-zmanim-container h3 {
+    color: var(--primary-gold);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Dark Zmanim for all themes */
+body.theme-parchment #home-zmanim-container,
+body.theme-parchment #home-zmanim-container,
+body.theme-dark #home-zmanim-container {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+    color: #e2e8f0;
+}
+
+/* Hide empty middle column in Zmanim widget */
+#home-zmanim-container table td:nth-child(2),
+#home-zmanim-container table th:nth-child(2) {
+    display: none !important;
+}
+
+/* Make Zmanim widget text more readable */
+#home-zmanim-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#home-zmanim-container table td,
+#home-zmanim-container table th {
+    padding: 8px 12px;
+    text-align: center;
+    background: transparent !important;
+}
+
+/* Force Zmanim widget rows to match site dark blue */
+#home-zmanim-container table tr {
+    background: #1e293b !important;
+}
+
+#home-zmanim-container table tr:nth-child(even) {
+    background: #0f172a !important;
+}
+
+/* Override any gray/white backgrounds from the widget */
+#home-zmanim-container *,
+#home-zmanim-container table,
+#home-zmanim-container td,
+#home-zmanim-container th,
+#home-zmanim-container tr {
+    background-color: transparent !important;
+    color: #e2e8f0 !important;
+}
+
+#home-zmanim-container {
+    background: #1e293b !important;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Light mode Zmanim - keep dark for contrast */
+body.theme-parchment #home-zmanim-container {
+    background: #1e293b !important;
+}
+
+#home-zmanim-container h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Remove old overrides if present, ensure widget is contained */
+.zmanim-scroll-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    /* No horizontal scroll needed usually */
+}
+
+/* Force MyZmanim Table to Flex/Grid */
+#home-zmanim-container table {
+    width: 100% !important;
+    /* display: flex !important; */
+    /* Removed as per instruction to remove horizontal overrides */
+    /* flex-wrap: nowrap !important; */
+    /* Removed */
+    /* overflow-x: auto !important; */
+    /* Removed */
+    gap: 15px !important;
+}
+
+#home-zmanim-container tbody,
+#home-zmanim-container tr {
+    /* display: flex !important; */
+    /* Removed */
+    gap: 15px !important;
+    /* width: max-content !important; */
+    /* Removed */
+    /* Allow scroll */
+}
+
+#home-zmanim-container td {
+    /* display: flex !important; */
+    /* Removed */
+    flex-direction: column !important;
+    min-width: 100px !important;
+    text-align: center !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px !important;
+    padding: 8px !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.theme-dark #home-zmanim-container td {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: white !important;
+}
+
+/* Footer Styling Fix */
+.app-footer {
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body.theme-parchment .app-footer {
+    background: #f1f5f9;
+}
+
+.footer-links a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+}
+
+.accent-link {
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+body.theme-parchment .accent-link {
+    color: #d97706;
+}
+
+/* Cards */
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: inherit;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card .icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center !important;
+}
+
+/* Prayer Text Alignment Override */
+#prayer-text.text-center,
+#prayer-text.text-center .prayer-content,
+#prayer-text.text-center p,
+#prayer-text.text-center h3 {
+    text-align: center !important;
+}
+
+/* Prayer Content - Shared */
+.prayer-content-wrapper {
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 10px;
+    /* Theme specific backgrounds handled above */
+}
+
+.prayer-content {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--font-hebrew);
+    font-size: var(--font-size-base);
+    line-height: 1.8;
+}
+
+/* Titles & Subtitles */
+.prayer-main-title {
+    font-size: 1.4em;
+    margin: 20px 0 10px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--primary-gold);
+    text-align: center;
+}
+
+.prayer-subtitle {
+    font-size: 1.1em;
+    margin: 10px 0 8px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(212, 175, 55, 0.8);
+    text-align: center;
+    opacity: 0.85;
+}
+
+.prayer-header {
+    font-size: 1.2em;
+    margin: 20px 0 5px;
+    font-weight: 700;
+    line-height: 1.2;
+    border-bottom: none;
+    color: var(--primary-gold);
+}
+
+/* Instruction/Subtitle */
+.prayer-instruction {
+    font-size: 0.9em;
+    opacity: 0.8;
+    font-weight: 400;
+    margin-bottom: 15px;
+    display: block;
+    font-style: italic;
+    color: #94a3b8;
+}
+
+/* === PRAYER TEXT FORMATTING === */
+
+/* Bold first word of each bracha */
+.bracha-start {
+    font-weight: 700;
+    color: var(--primary-gold);
+    font-size: 1.1em;
+}
+
+/* Optional prayers (Rosh Chodesh, etc.) - smaller with highlight */
+.optional-prayer {
+    background: rgba(148, 163, 184, 0.15);
+    border-left: 3px solid #64748b;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95em;
+}
+
+.optional-prayer .instruction {
+    display: block;
+    font-size: 0.85em;
+    color: #94a3b8;
+    font-style: italic;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* Paragraph spacing in prayers */
+.prayer-paragraph {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+/* Better Hebrew font */
+.hebrew-text,
+.prayer-content,
+#prayer-text {
+    font-family: 'Amiri', 'David Libre', 'Noto Serif Hebrew', serif;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    direction: rtl;
+    text-align: right;
+}
+
+/* Section breaks in prayers */
+.prayer-section-break {
+    margin: 25px 0;
+    border-top: 1px dashed rgba(212, 175, 55, 0.3);
+    padding-top: 20px;
+}
+
+/* Important/key phrases */
+.key-phrase {
+    font-weight: 600;
+    color: var(--primary-gold);
+}
+
+/* Nav Chips - Compact for mobile */
+.prayer-nav {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.prayer-nav button {
+    background: var(--primary-gold);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #1e293b;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.prayer-nav button:hover {
+    transform: translateY(-1px);
+    background: #e0a82a;
+}
+
+/* Even more compact on very small screens */
+@media (max-width: 480px) {
+    .prayer-nav {
+        gap: 3px;
+        margin-bottom: 10px;
+    }
+
+    .prayer-nav button {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        border-radius: 15px;
+    }
+}
+
+/* Utilities */
+.text-center {
+    text-align: center !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===========================================
+   PRAYER TEXT STYLING - Compact & Readable
+   =========================================== */
+
+/* Main Hebrew Text - Compact Line Height */
+.hebrew-text {
+    font-family: var(--font-hebrew);
+    direction: rtl;
+    text-align: right;
+    line-height: 1.5 !important;
+    font-size: 1.15rem;
+}
+
+.hebrew-text p {
+    margin-bottom: 6px;
+}
+
+/* Optional/Occasional Prayers - Smaller & Highlighted */
+.optional-prayer,
+.prayer-instruction {
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+    background: rgba(96, 165, 250, 0.12);
+    border-left: 3px solid #60a5fa;
+    padding: 5px 8px;
+    margin: 5px 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.optional-prayer p,
+.prayer-instruction p {
+    margin: 2px 0 !important;
+    font-size: 0.78rem !important;
+}
+
+.optional-prayer .instruction,
+.instruction {
+    font-size: 0.68rem !important;
+    color: #60a5fa;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+    direction: ltr;
+    text-align: left;
+}
+
+/* Light mode optional prayers */
+body.theme-parchment .optional-prayer,
+body.theme-parchment .prayer-instruction {
+    background: rgba(30, 58, 95, 0.08);
+    border-left-color: #1e3a5f;
+}
+
+body.theme-parchment .instruction {
+    color: #1e3a5f;
+}
+
+/* Prayer Headers - Compact */
+.prayer-header {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 8px 0 4px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #60a5fa;
+}
+
+body.theme-parchment .prayer-header {
+    color: #1e3a5f;
+    border-color: #e2e8f0;
+}
+
+/* Prayer Section Breaks - Minimal */
+.prayer-section-break {
+    height: 6px;
+}
+
+/* Bracha Start - Bold First Word */
+.bracha-start {
+    font-weight: 700;
+    color: #60a5fa;
+    font-size: 1.05em;
+}
+
+body.theme-parchment .bracha-start {
+    color: #1e3a5f;
+}
+
+/* Back to Top - Modern Blue */
+#back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+}
+
+body.theme-parchment #back-to-top {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+}
+
+body.theme-parchment #back-to-top:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+}
+
+#back-to-top:active {
+    transform: scale(0.95);
+}
+
+#back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+/* Header Tweaks */
+.header-right-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.bsd-text {
+    font-size: 0.8rem;
+    font-family: var(--font-hebrew);
+    margin-bottom: 2px;
+    opacity: 0.8;
+}
+
+.time-display {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.9;
+    font-family: monospace;
+    /* Clearer numbers */
+}
+
+/* Donate Page - Discrete */
+.donate-button-simple {
+    display: inline-block;
+    background: transparent;
+    color: var(--primary-gold);
+    border: 1px solid var(--primary-gold);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin: 10px 0;
+}
+
+.donate-button-simple:hover {
+    background: rgba(251, 191, 36, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Full Width Card */
+.full-width-card {
+    max-width: 100% !important;
+    padding: 10px !important;
+}
+
+/* Calendar Grid */
+.rabbis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.rabbi-card {
+    background: rgba(255, 255, 255, 0.05);
+    /* Very subtle glass */
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+body.theme-parchment .rabbi-card {
+    background: white;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-parchment .rabbi-card {
+    background: rgba(44, 24, 16, 0.05);
+    border-color: rgba(44, 24, 16, 0.1);
+}
+
+.rabbi-card h3 {
+    font-size: 1.1rem;
+    color: var(--primary-gold);
+    margin-bottom: 5px;
+}
+
+body.theme-parchment .rabbi-card h3 {
+    color: #d97706;
+}
+
+body.theme-parchment .rabbi-card h3 {
+    color: #78350f;
+}
+
+.rabbi-date {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    opacity: 0.9;
+}
+
+.rabbi-location {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.rabbi-desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* ========== MOBILE RESPONSIVE ========== */
+@media (max-width: 768px) {
+
+    /* Header */
+    .navbar {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .app-logo {
+        height: 80px;
+    }
+
+    .clock-wrapper {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .header-controls button {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+
+    /* Content */
+    .content-area {
+        padding: 5px 10px 15px;
+    }
+
+    /* Home layout - stack columns */
+    .home-container {
+        flex-direction: column;
+    }
+
+    .home-left,
+    .home-right {
+        max-width: 100%;
+    }
+
+    /* Grid menu */
+    .grid-menu {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .card .icon {
+        font-size: 1.5rem;
+    }
+
+    .card h3 {
+        font-size: 0.9rem;
+    }
+
+    .card p {
+        font-size: 0.75rem;
+    }
+
+    /* Prayer view */
+    #prayer-text {
+        font-size: 1.2rem;
+        line-height: 1.8;
+    }
+
+    .prayer-nav {
+        gap: 5px;
+    }
+
+    .prayer-nav button {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+
+    /* Welcome */
+    .welcome-banner h1 {
+        font-size: 1.3rem !important;
+    }
+
+    /* BSD */
+    .bsd-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-logo {
+        height: 60px;
+    }
+
+    .clock-wrapper {
+        padding: 6px 12px;
+    }
+
+    .grid-menu {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    #prayer-text {
+        font-size: 1.1rem;
+    }
+}
+/* Featured Cards Highlighting */
+.featured {
+    border: 2px solid var(--accent-light-blue) !important;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.featured::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-light-blue);
+}
+
+.featured-gold {
+    border: 2px solid var(--primary-gold) !important; /* Blue */
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
+    position: relative;
+}
+
+.featured-gold::before {
+    content: '?';
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    color: var(--primary-gold);
+    font-size: 0.8rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Phase 2-4 Fixes */
+
+/* Align Zmanim start with Weather (both start at top) */
+.home-right {
+    align-self: start !important;
+}
+
+/* Bottom padding before footer */
+.content-area {
+    padding-bottom: 60px !important;
+}
+
+/* Compact line spacing globally */
+body {
+    line-height: 1.5;
+}
+
+/* Smaller font for Psalms and Blessings */
+.blessing-text, .psalm-text, .tehillim-content {
+    font-size: 1.2rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Parchment texture ONLY for prayer content */
+.prayer-content-wrapper,
+.prayer-bg,
+#prayer-text {
+    background: linear-gradient(135deg, #f5f0e1 0%, #ebe0cc 50%, #f5f0e1 100%) !important;
+    background-image: url('data:image/svg+xml,<svg xmlns=" http://www.w3.org/2000/svg\ width=\100\ height=\100\><rect fill=\%23f5f0e1\ width=\100\ height=\100\/><circle fill=\%23e8dcc8\ cx=\50\ cy=\50\ r=\1\ opacity=\0.3\/></svg>') !important;
+}
+
+/* Dark mode keeps prayer parchment */
+body.theme-dark .prayer-content-wrapper,
+body.theme-dark #prayer-text {
+ background: #f5f0e1 !important;
+ color: #3d2c1e !important;
+}
+
+/* Prayer text always dark on parchment */
+.prayer-content-wrapper *,
+#prayer-text * {
+ color: #3d2c1e !important;
+}
+
+
+/* Fix Zmanim to align with Weather top */
+.home-right {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+#home-zmanim-container {
+    margin-top: 0 !important;
+}
+
+/* Center the header-center content */
+.header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Smaller prayer text line spacing */
+.prayer-content-wrapper p,
+#prayer-text p {
+    line-height: 1.4 !important;
+    margin-bottom: 0.4em !important;
+}
+
+/* Realistic parchment background for prayers */
+.prayer-content-wrapper {
+    background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+    border: 1px solid #c4a775 !important;
+    box-shadow: inset 0 0 20px rgba(139, 105, 60, 0.1) !important;
+}
+
+/* Logo with blue circular background */
+.app-logo {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%) !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
+    height: 80px !important;
+    width: 80px !important;
+    object-fit: contain !important;
+}
+
+/* Ensure logo is white on blue background */
+body.theme-dark .app-logo {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Prayer Background Toggle Classes */
+.prayer-content-wrapper.parchment-bg {
+    background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+    border: 1px solid #c4a775 !important;
+}
+
+.prayer-content-wrapper.white-bg {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+/* Light mode styles */
+body.theme-light {
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+body.theme-light .navbar {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+body.theme-light .card {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+/* Better Spacing Between Sections */
+.glass-card, .card {
+    margin-bottom: 20px !important;
+    padding: 20px !important;
+}
+
+/* Section Headers Spacing */
+.section-header, h3 {
+    margin-top: 25px !important;
+    margin-bottom: 15px !important;
+}
+
+/* Parasha View Spacing */
+#parasha-content h2 {
+    margin-bottom: 8px;
+}
+
+#parasha-content h3 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+#parasha-content p {
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+#parasha-content ul {
+    margin: 15px 0;
+}
+
+#parasha-content li {
+    margin-bottom: 10px;
+}
+
+/* Home Container Spacing */
+.home-container {
+    gap: 20px !important;
+}
+
+/* Grid Menu Spacing */
+.grid-menu {
+    gap: 15px !important;
+    margin-bottom: 20px !important;
+}
+
+/* === TASK 1: Header Fixes === */
+
+/* Logo: White/Bright in Dark Mode */
+body.theme-dark .app-logo {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Logo: Normal in Light Mode */
+body.theme-light .app-logo {
+    filter: none !important;
+}
+
+/* Light Mode: Clock wrapper with light background */
+body.theme-light .clock-wrapper {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+body.theme-light .clock-wrapper * {
+    color: #1e40af !important;
+}
+
+body.theme-light .time-display {
+    color: #1e3a5f !important;
+}
+
+body.theme-light .zman-countdown {
+    color: #b45309 !important;
+}
+
+/* === TASK 2: Widget Alignment === */
+
+/* Align both columns to top */
+.home-container {
+    align-items: flex-start !important;
+}
+
+.home-left, .home-right {
+    align-self: flex-start !important;
+}
+
+/* Weather widget: center content, larger temp */
+.weather-card {
+    text-align: center !important;
+}
+
+/* === TASK 3: Layout Width === */
+
+/* Wider main container */
+.content-area {
+    max-width: 95% !important;
+    width: 100% !important;
+}
+
+@media (min-width: 1200px) {
+    .content-area {
+        max-width: 1400px !important;
+    }
+}
+
+/* Compact prayer line spacing */
+#prayer-text, .prayer-content {
+    line-height: 1.5 !important;
+}
+
+#prayer-text p {
+    margin-bottom: 0.5em !important;
+}
+
+/* Prayer font size via CSS variable */
+#prayer-text,
+.prayer-content-wrapper,
+.prayer-content {
+    font-size: var(--prayer-font-size, 1.4rem) !important;
+}
+
+/* Prayer Header - Tight Subtitle Spacing */
+.prayer-header, .prayer-title {
+    line-height: 1.1 !important;
+    margin-bottom: 5px !important;
+}
+
+.prayer-header h1, .prayer-header h2, .prayer-header h3 {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.1 !important;
+}
+
+.prayer-subtitle, .prayer-header p {
+    margin: 0 !important;
+    margin-top: 2px !important;
+    line-height: 1.2 !important;
+    padding: 0 !important;
+}
+
+/* Prayer text container header */
+#prayer-text h1, #prayer-text h2, #prayer-text h3 {
+    margin-bottom: 2px !important;
+    line-height: 1.2 !important;
+}
+
+#prayer-text h1 + p, #prayer-text h2 + p, #prayer-text h3 + p {
+    margin-top: 2px !important;
+}
+
+/* First few lines in prayer - tight */
+#prayer-text > p:first-of-type,
+#prayer-text > p:nth-of-type(2),
+#prayer-text > p:nth-of-type(3) {
+    margin-top: 0 !important;
+    margin-bottom: 5px !important;
+}
+
+/* === FIX WIDGET TOP ALIGNMENT === */
+
+/* Force both columns to align at the very top */
+.home-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    align-items: start !important;
+    gap: 20px !important;
+}
+
+/* Reset any margins pushing widgets down */
+.home-left, .home-right {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    align-self: start !important;
+}
+
+/* Zmanim container no top margin */
+#home-zmanim-container {
+    margin-top: 0 !important;
+}
+
+/* Weather section no extra margin */
+.weather-section {
+    margin-top: 0 !important;
+}
+
+/* Welcome banner minimal bottom margin */
+.welcome-banner {
+    margin-bottom: 10px !important;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 767px) {
+    .home-container {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Apply prayer font size to blessings too */
+.blessing-text,
+.blessing-content,
+#blessing-text,
+.bracha-text {
+    font-size: var(--prayer-font-size, 1.4rem) !important;
+}
+
+/* === SIMPLIFIED LOGO STYLING === */
+
+/* Reset logo - simple image */
+.app-logo {
+    height: 50px !important;
+    width: auto !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    padding: 0 !important;
+    filter: none !important;
+}
+
+/* Logo text styling */
+.logo-text {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    direction: rtl !important;
+}
+
+.logo-text small {
+    font-size: 0.7rem !important;
+    opacity: 0.8 !important;
+    font-weight: 400 !important;
+}
+
+/* Dark mode: white text */
+body.theme-dark .logo-text {
+    color: #ffffff !important;
+}
+
+body.theme-dark .app-logo {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Light mode: black text */
+body.theme-light .logo-text {
+    color: #1e293b !important;
+}
+
+body.theme-light .app-logo {
+    filter: none !important;
+}
+
+/* Clock wrapper - consistent blue */
+.clock-wrapper {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+}
+
+/* Clock text always white on blue */
+.clock-wrapper * {
+    color: #ffffff !important;
+}
+
+.zman-countdown {
+    color: #fbbf24 !important;
+}
+
+/* === SIMPLE LOGO - NO FILTERS === */
+.app-logo {
+    height: 70px !important;
+    width: auto !important;
+    filter: none !important;
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Remove all logo text styling */
+.logo-text, .logo-container {
+    display: none !important;
+}

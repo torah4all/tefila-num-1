@@ -1,0 +1,838 @@
+/* === TEFILA APP HEADER REDESIGN - FINAL STRICT === */
+/* Replaces all previous header styles to ensure perfect alignment */
+
+/* --- LAYOUT CONSTANTS & VARIABLES --- */
+:root {
+    --header-height: 80px;
+    /* REDUCED from 125px - Gap Fix */
+    --component-height: 95px;
+    --gold: #fbbf24;
+    --navy-blue: #003366;
+    /* User Spec: Dark Navy */
+    --bright-blue: #2563EB;
+    /* User Spec: Titles */
+    --light-blue-border: #BFDBFE;
+    /* User Spec: Borders */
+    --text-white: #f8fafc;
+
+    /* Typography Overrides */
+    --siddur-line-height: 1.5;
+    --siddur-font-size: 1.5rem;
+}
+
+/* --- THEME OVERRIDES (Light Mode - User Spec) --- */
+body.theme-light {
+    background-color: #FFFFFF !important;
+    /* Pure White */
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light .glass-card,
+body.theme-light .prayer-content-wrapper,
+body.theme-light .sidebar {
+    background: #FFFFFF !important;
+    border: 2px solid var(--bright-blue) !important;
+    /* Blue Border */
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1) !important;
+}
+
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4 {
+    color: var(--bright-blue) !important;
+}
+
+body.theme-light .prayer-paragraph,
+body.theme-light .prayer-line,
+body.theme-light .hebrew-text {
+    color: #000000 !important;
+    /* Black/Navy for reading */
+}
+
+/* --- SIDDUR TYPOGRAPHY (Paragraphs) --- */
+.prayer-paragraph {
+    display: block;
+    width: 100%;
+    margin-bottom: 24px;
+    /* Space between blocks */
+    line-height: 1.5 !important;
+    /* User Spec */
+    text-align: justify;
+    /* Traditional Siddur look */
+    text-align-last: right;
+    font-family: 'Assistant', sans-serif;
+    font-size: var(--siddur-font-size);
+}
+
+/* --- SIDDUR LISTS (Ashrei, Blessings) --- */
+.prayer-line {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px !important;
+    /* Tight spacing for lists */
+    line-height: 1.3 !important;
+    text-align: right;
+    font-family: 'Assistant', sans-serif;
+    font-size: var(--siddur-font-size);
+}
+
+/* Instructions */
+.prayer-instruction {
+    font-size: 0.9rem !important;
+    color: #94a3b8;
+    /* Muted */
+    font-style: italic;
+    margin: 4px 0 12px 0;
+    text-align: center;
+}
+
+/* Bold First Word */
+.bracha-start {
+    font-weight: 800;
+    color: inherit;
+    /* Inherit theme color */
+}
+
+/* Header Spacing */
+.prayer-header,
+.prayer-subtitle {
+    margin-top: 24px !important;
+    margin-bottom: 12px !important;
+}
+
+/* --- STICKY FOOTER & BODY LAYOUT --- */
+body {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+#main-container {
+    flex: 1 0 auto !important;
+    /* Flex grow to push footer down */
+    width: 100%;
+    min-height: 80vh !important;
+    /* Ensure it takes up space */
+    padding-bottom: 40px !important;
+}
+
+/* --- BASE PADDING (Header Spacing) - MINIMAL GAP --- */
+/* Main container handles margin-top for fixed header */
+/* Views inside should have no extra top spacing */
+.home-container,
+.container,
+.view {
+    padding-top: 0 !important;
+    /* No padding - container has margin */
+    margin-top: 0 !important;
+    /* No extra margin */
+}
+
+/* Fix Card Text Alignment - Center everything */
+.card .hebrew-text,
+.prayer-card .hebrew-text {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 2px !important;
+    /* Reduced spacing between English and Hebrew */
+    margin-bottom: 2px !important;
+    line-height: 1.2 !important;
+}
+
+.card p {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* --- MAIN NAVBAR CONTAINER --- */
+header.navbar {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: var(--header-height) !important;
+    padding: 0 40px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    position: fixed !important;
+    /* Fixed header */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* --- LEFT: HAMBURGER & LOGO --- */
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 20px !important;
+    flex: 1 !important;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-white);
+    border-radius: 2px;
+}
+
+/* Logo Wrapper - STRICT CENTER */
+.logo-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-width: 140px;
+    cursor: pointer;
+    padding: 0 !important;
+}
+
+#app-logo {
+    height: 140px !important;
+    /* EVEN LARGER LOGO (Requested) */
+    width: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.tagline {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    margin-top: 2px !important;
+    margin-bottom: 5px !important;
+    text-align: center !important;
+    color: var(--text-white) !important;
+    white-space: nowrap !important;
+    font-family: 'Outfit', sans-serif !important;
+    width: 100% !important;
+    display: block !important;
+    border-bottom: 2px solid var(--gold);
+    /* Logo Underline Decoration */
+    padding-bottom: 3px;
+}
+
+/* --- RIGHT: CONTROLS & BSD --- */
+.header-right-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    flex: 1 !important;
+}
+
+.bsd-text {
+    font-family: 'Assistant', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: var(--gold) !important;
+}
+
+.header-controls {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.header-controls button {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-white);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s;
+}
+
+.header-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- CENTER: CLOCK & QUOTE --- */
+.header-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 2 !important;
+}
+
+/* Container for Clock + Quote Stack */
+.clock-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+/* The Glass Capsule - Wider & Better Flow */
+.clock-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    height: var(--component-height) !important;
+    min-width: 600px !important;
+    /* EVEN WIDER (Requested) */
+    padding: 5px 10px !important;
+    /* Reduced left padding */
+    gap: 25px !important;
+
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 60px !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Internal: Analog Clock */
+.clock-face {
+    width: 80px !important;
+    /* Matched relative scale */
+    height: 80px !important;
+    min-width: 80px !important;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.clock-face .hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    background: white;
+    border-radius: 2px;
+}
+
+.hour-hand {
+    width: 3px;
+    height: 18px;
+    margin-left: -1.5px;
+}
+
+.minute-hand {
+    width: 2px;
+    height: 26px;
+    margin-left: -1px;
+}
+
+.second-hand {
+    width: 1px;
+    height: 28px;
+    background: var(--gold) !important;
+    margin-left: -0.5px;
+}
+
+.center-dot {
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Internal: Text Info */
+.clock-text {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1px !important;
+    flex: 1;
+}
+
+.time-row {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100%;
+}
+
+.time-display {
+    font-family: 'Assistant', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: var(--gold) !important;
+    line-height: 1 !important;
+    white-space: nowrap;
+}
+
+#bdi-avad-inline {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    color: white;
+    white-space: nowrap;
+}
+
+.countdown-row {
+    display: flex !important;
+    width: 100%;
+    justify-content: center !important;
+    min-height: 22px;
+}
+
+#zman-countdown {
+    display: inline-block !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px 10px;
+    border-radius: 4px;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+.date-row {
+    display: flex !important;
+    gap: 8px !important;
+    font-size: 0.95rem !important;
+    color: rgba(255, 255, 255, 0.9);
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap;
+}
+
+#header-date {
+    font-weight: 700 !important;
+}
+
+#header-hebrew-date {
+    font-family: 'Assistant', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+body.theme-light #header-hebrew-date {
+    color: var(--navy-blue) !important;
+}
+
+/* Quote Under Clock */
+#daily-quote {
+    display: block !important;
+    font-size: 0.85rem !important;
+    font-style: italic !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-align: center !important;
+    width: 100%;
+}
+
+/* --- THEME: LIGHT MODE OVERRIDES - BLUE EVERYWHERE --- */
+body.theme-light {
+    background-color: #ffffff !important;
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light header.navbar {
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 4px 10px rgba(0, 59, 190, 0.1);
+}
+
+/* Standardize Borders - Double Line for Parchment only */
+
+/* Header Text & Elements */
+body.theme-light .hamburger-menu span {
+    background-color: var(--navy-blue) !important;
+}
+
+body.theme-light .tagline {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light .bsd-text {
+    color: var(--navy-blue) !important;
+}
+
+/* Toolbar Visibility Fix: Blue Outline in Light Mode */
+body.theme-light .header-controls button {
+    background: #ffffff !important;
+    border: 2px solid var(--navy-blue) !important;
+    color: var(--navy-blue) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 6px rgba(0, 59, 190, 0.2) !important;
+}
+
+/* Parchment Mode Specific - Black Outline */
+body.prayer-mode .header-controls button {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #000000 !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.theme-light .header-controls button:hover,
+body.prayer-mode .header-controls button:hover {
+    transform: scale(1.05);
+    background: #f0f9ff !important;
+}
+
+/* Clock Widget */
+body.theme-light .clock-wrapper {
+    background: #ffffff !important;
+    border: 2px solid var(--navy-blue) !important;
+    box-shadow: 0 4px 12px rgba(0, 59, 190, 0.15);
+}
+
+body.theme-light .clock-face {
+    border-color: var(--navy-blue) !important;
+}
+
+body.theme-light .clock-face .hand {
+    background: var(--navy-blue) !important;
+}
+
+body.theme-light .second-hand {
+    background: #ef4444 !important;
+}
+
+body.theme-light .center-dot {
+    background: var(--navy-blue) !important;
+}
+
+/* Clock Text */
+body.theme-light .time-display {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light #bdi-avad-inline {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light #zman-countdown {
+    color: #ffffff !important;
+    background: var(--navy-blue) !important;
+    /* White text on Blue BG for countdown */
+    text-shadow: none !important;
+}
+
+body.theme-light .date-row {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light #daily-quote {
+    color: var(--navy-blue) !important;
+}
+
+/* Menu & Sidebar */
+body.theme-light .sidebar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-right: 1px solid #e2e8f0;
+}
+
+body.theme-light .sidebar h3 {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light .sidebar a {
+    color: var(--navy-blue) !important;
+    border-bottom: 1px solid rgba(0, 59, 190, 0.1);
+}
+
+body.theme-light .sidebar a:hover {
+    background-color: rgba(0, 59, 190, 0.1);
+}
+
+/* Icons & Fill */
+body.theme-light .icon {
+    fill: var(--navy-blue) !important;
+    stroke: var(--navy-blue) !important;
+}
+
+body.theme-light svg {
+    stroke: var(--navy-blue) !important;
+}
+
+body.theme-light .prayer-icon,
+body.theme-light .prayer-icon path {
+    fill: var(--navy-blue) !important;
+    stroke: none !important;
+}
+
+/* Exception for Sun/Moon filled icons if needed, but User asked for BLUE. */
+
+
+/* --- ZMANIM WIDGET SPECIFIC OVERRIDES (Light Mode) --- */
+body.theme-light #zmanim-card-content h3,
+body.theme-light #zmanim-card-content strong,
+body.theme-light #zmanim-card-content div[style*="color: #fbbf24"] {
+    color: var(--navy-blue) !important;
+}
+
+body.theme-light #zmanim-card-content div[style*="background: rgba(255, 215, 0, 0.15)"] {
+    background: rgba(0, 59, 190, 0.1) !important;
+    border-color: rgba(0, 59, 190, 0.2) !important;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    header.navbar {
+        height: auto !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 15px !important;
+        position: relative !important;
+        /* Unfix on mobile if needed or keep fixed */
+    }
+
+    .home-container,
+    .container {
+        padding-top: 20px !important;
+    }
+
+    /* Reset padding on mobile if header flows */
+
+    .clock-wrapper {
+        min-width: 90% !important;
+        margin: 0 auto;
+    }
+}
+
+/* === EMERGENCY FIXES (Phase 16 - Refined & Final) === */
+
+/* 1. RESPONSIVE LOGO (Refined) */
+#app-logo {
+    height: 110px !important;
+    /* Smaller as requested */
+    width: auto !important;
+    max-height: none !important;
+    min-height: auto !important;
+    object-fit: contain !important;
+}
+
+/* 2. FLOATING PRAYER MENU (FAB) - Blue/Glass Style */
+#prayer-fab-container {
+    position: fixed !important;
+    bottom: 30px !important;
+    left: 30px !important;
+    z-index: 99999 !important;
+}
+
+#prayer-fab-main {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: var(--navy-blue) !important;
+    /* Blue! */
+    color: white !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    font-size: 1.8rem !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#prayer-fab-menu {
+    position: absolute !important;
+    bottom: 80px !important;
+    left: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 220px !important;
+    background: #1e293b !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5) !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+#prayer-fab-menu.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+}
+
+#prayer-fab-menu button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+    color: white !important;
+    text-align: left !important;
+    padding: 10px 14px !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+#prayer-fab-menu button:hover {
+    background: var(--gold) !important;
+    color: black !important;
+}
+
+.fab-close-btn {
+    align-self: flex-end;
+    background: none !important;
+    color: #94a3b8 !important;
+    padding: 5px !important;
+    font-size: 1.2rem;
+    line-height: 1;
+    min-height: auto !important;
+}
+
+/* 3. PARCHMENT MODE - FORCE BLACK TEXT & LAYOUT STABILITY */
+body.parchment-active h2,
+body.parchment-active h3,
+body.parchment-active h4,
+body.parchment-active p,
+body.parchment-active span,
+body.parchment-active div,
+body.parchment-active .hebrew-text {
+    color: #000000 !important;
+    /* BLACK TEXT */
+    text-shadow: none !important;
+}
+
+body.parchment-active .glass-card,
+body.parchment-active .prayer-content-wrapper {
+    background: #f4ead5 !important;
+    border: 3px double #8B4513 !important;
+}
+
+/* Fix Parchment Shift - Ensure it respects header space */
+body.parchment-active .home-container,
+body.parchment-active #main-container,
+.home-container,
+#main-container {
+    padding-top: 0px !important;
+    /* Removed "Huge Gap" */
+    margin-top: 0px !important;
+}
+
+.prayer-view,
+.view {
+    padding-top: 10px !important;
+}
+
+/* 4. CLOCK ALIGNMENT & DARK MODE FIX */
+.clock-wrapper {
+    padding: 5px 20px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+}
+
+/* USER REQUESTED: Dark Mode Clock Shift */
+body.theme-dark .clock-face {
+    margin-left: -16px !important;
+}
+
+/* 5. LIGHT MODE FIX */
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4 {
+    color: var(--navy-blue) !important;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    #app-logo {
+        height: 80px !important;
+        /* Smaller on mobile */
+    }
+
+    .clock-wrapper {
+        margin-top: 5px !important;
+        width: 95% !important;
+        padding: 5px 10px !important;
+    }
+}
+
+/* ============================================
+   ULTIMATE GAP FIX - LAST LOADED = HIGHEST PRIORITY
+   ============================================ */
+
+/* HEADER: Fixed at 90px */
+html body header.navbar,
+header.navbar {
+    height: 90px !important;
+    min-height: 90px !important;
+    max-height: 90px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+}
+
+/* MAIN CONTAINER: Starts at 95px (just below header) */
+html body #main-container,
+html body main.content-area,
+#main-container,
+main.content-area,
+.content-area {
+    margin-top: 95px !important;
+    padding-top: 0 !important;
+}
+
+/* VIEWS: No extra spacing */
+html body .view,
+html body .home-container,
+html body .container,
+html body section.view,
+.view,
+.home-container,
+.container,
+section.view,
+#home-view,
+#prayer-view,
+#birkat-view,
+#meein-view,
+#haderech-view {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* WELCOME BANNER: Minimal spacing */
+.welcome-banner {
+    margin-top: 0 !important;
+    margin-bottom: 5px !important;
+    padding-top: 0 !important;
+}
+
+/* HOME LEFT/RIGHT: Start at top */
+.home-left,
+.home-right {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* WIDGETS: No extra top margin */
+.weather-section,
+#home-zmanim-container,
+.grid-menu {
+    margin-top: 0 !important;
+}

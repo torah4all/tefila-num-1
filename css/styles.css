@@ -1,0 +1,435 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary-gold: #fbbf24;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --font-hebrew: 'Amiri', serif;
+    --font-ui: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#app {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 110px 20px 20px;
+    /* INCREASED from 80px */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar h1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-gold);
+    margin-left: 12px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.4));
+}
+
+#back-btn {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spacer {
+    width: 40px;
+    /* approx same as back btn */
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
+}
+
+/* Home View */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    color: var(--text-muted);
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.2s, background 0.2s;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Prayer View */
+.prayer-content-wrapper {
+    padding: 24px;
+    min-height: 60vh;
+}
+
+.hebrew-text {
+    font-family: var(--font-hebrew);
+    font-size: 1.5rem;
+    line-height: 1.8;
+    text-align: right;
+    white-space: pre-wrap;
+    /* Preserve line breaks */
+}
+
+.hebrew-text h1 {
+    font-size: 2.5rem;
+    color: var(--primary-gold);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.hebrew-text h3 {
+    font-size: 1.8rem;
+    color: #e2e8f0;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 8px;
+}
+
+.hebrew-text p {
+    margin-bottom: 16px;
+}
+
+/* Calendar View */
+.calendar-wrapper {
+    padding: 24px;
+    text-align: center;
+}
+
+/* Content Views (About, Contact, FAQ) */
+.content-wrapper {
+    padding: 24px;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.content-wrapper h2 {
+    color: var(--primary-gold);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.content-wrapper p {
+    margin-bottom: 16px;
+}
+
+/* FAQ Styling */
+details {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+summary {
+    padding: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    /* remove default arrow */
+    position: relative;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '+';
+    position: absolute;
+    right: 16px;
+    font-weight: bold;
+    color: var(--primary-gold);
+}
+
+details[open] summary::after {
+    content: '-';
+}
+
+details p {
+    padding: 0 16px 16px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Clock Widget */
+.clock-widget {
+    min-width: 550px !important;
+    /* WIDER (was 450px) to prevent overlap */
+}
+
+/* Footer Element */
+.app-footer {
+    margin-top: auto !important;
+    /* Sticky Bottom */
+    padding: 40px 20px 20px;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(15, 23, 42, 0.4);
+    width: 100%;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-link {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    text-decoration: none;
+    font-family: var(--font-ui);
+}
+
+.footer-link:hover {
+    color: var(--primary-gold);
+    text-decoration: underline;
+}
+
+.store-link {
+    color: var(--primary-gold);
+    font-weight: 600;
+}
+
+.copyright {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Featured Card (Store) */
+.card.featured {
+    border-color: rgba(251, 191, 36, 0.3);
+    background: rgba(251, 191, 36, 0.05);
+}
+
+.card.featured:hover {
+    border-color: rgba(251, 191, 36, 0.6);
+    background: rgba(251, 191, 36, 0.1);
+}
+
+/* Prayer Text Formatting (Parchment Style) */
+#prayer-view .content-card {
+    max-width: 1200px;
+    width: 98%;
+    background: #fdf6e3 !important;
+    /* Antique White / Parchment */
+    color: #2c1810 !important;
+    /* Dark brown ink */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e1d4b6;
+    padding: 2.5rem;
+    /* More breathing room */
+}
+
+.prayer-content {
+    text-align: right;
+    direction: rtl;
+    white-space: normal;
+    font-family: 'David', 'Times New Roman', serif;
+    /* Serif for book feel */
+}
+
+.prayer-header {
+    font-size: 2.5rem;
+    /* Much bigger */
+    font-weight: 700;
+    color: #b45309;
+    /* Burnt Orange/Gold */
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid #e1d4b6;
+    padding-bottom: 0.5rem;
+}
+
+.prayer-subheader {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #78350f;
+    /* Dark Brown */
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    /* No underline */
+}
+
+.prayer-paragraph {
+    font-size: 1.6rem;
+    /* Big and clear */
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #2c1810;
+}
+
+.prayer-instruction {
+    font-size: 1.2rem;
+    color: #854d0e;
+    font-style: italic;
+    margin: 0.5rem 0;
+    font-family: sans-serif;
+    /* Contrast font for instructions */
+}
+
+.prayer-active-highlight {
+    color: #d97706;
+    font-weight: bold;
+    background: rgba(251, 191, 36, 0.1);
+    /* Removed text-shadow/border impacts */
+}
+
+/* Navigation Chips */
+.prayer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    /* Show all buttons */
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e1d4b6;
+}
+
+.prayer-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.prayer-nav button {
+    background: #deb887;
+    /* Burlywood */
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #2c1810;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.prayer-nav button:hover {
+    background: #b45309;
+    color: white;
+}
+
+/* Consolidate Titles */
+.prayer-content>h3.prayer-header:nth-of-type(1) {
+    font-size: 2.5rem;
+    border-bottom: 2px solid #e1d4b6;
+    margin-bottom: 1rem;
+}
+
+/* Secondary titles (lines 2, 3...) should be subtler */
+.prayer-content>h3.prayer-header:nth-of-type(n+2) {
+    font-size: 1.3rem;
+    color: #92400e;
+    border-bottom: none;
+    margin-top: 0;
+    margin-bottom: 0.3rem;
+    opacity: 0.8;
+    font-weight: 500;
+}

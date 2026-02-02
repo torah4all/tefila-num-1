@@ -1,0 +1,61 @@
+﻿
+/* === RECOVERY FIXES === */
+
+/* Logo Size */
+#app-logo {
+    height: 100px !important;
+    width: auto !important;
+}
+
+/* Prayer Text - Reduced Line Height */
+.prayer-content,
+#prayer-text,
+.hebrew-text {
+    line-height: 1.5 !important;
+}
+
+/* Reduce spacing between sections */
+.section-header {
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Grid menu cards - tighter spacing */
+.grid-menu {
+    gap: 12px !important;
+}
+
+.grid-menu .card {
+    padding: 15px 10px !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .widget-row {
+        flex-direction: column !important;
+    }
+    
+    .weather-section,
+    #home-zmanim-container {
+        min-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    #app-logo {
+        height: 80px !important;
+    }
+    
+    .header-center {
+        display: none !important;
+    }
+    
+    .grid-menu {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-menu {
+        grid-template-columns: 1fr !important;
+    }
+}

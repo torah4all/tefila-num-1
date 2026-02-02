@@ -1,0 +1,1724 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>All in One Prayer App</title>
+
+    <!-- Error Reporter -->
+
+    <script>
+
+        window.onerror = function (msg, url, line) {
+
+            // Ignore cross-origin errors from weather widgets (Line 0)
+
+            if (line === 0 || msg === 'Script error.') {
+
+                return true; // Suppress the error
+
+            }
+
+            var div = document.createElement('div');
+
+            div.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:99999;padding:10px;font-family:monospace;border-bottom:2px solid black;';
+
+            div.innerText = '\u26A0\uFE0F ERROR: ' + msg + ' (Line ' + line + ')';
+
+            document.body.appendChild(div);
+
+        };
+
+    </script>
+
+    <link rel="stylesheet" href="css/styles_v2.css">
+
+    <link rel="stylesheet" href="css/overhaul.css">
+
+    <link rel="stylesheet" href="css/recovery.css">
+
+    <link rel="stylesheet" href="css/restoration.css">
+
+    <link rel="manifest" href="manifest.json">
+
+    <script src="js/config.js"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Assistant:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Inline Critical CSS -->
+
+    <style>
+        /* Force visibility defaults - Dark Mode */
+
+        body {
+
+            background-color: #0f172a;
+
+            color: #f8fafc;
+
+        }
+
+
+
+        .hidden {
+
+            display: none !important;
+
+        }
+    </style>
+
+    <!-- FORCE FIX OVERRIDES (Phase 23 - GAP FIX) -->
+    <style>
+        /* GAP FIX: Proper spacing for fixed header */
+        #main-container,
+        .content-area {
+            margin-top: 95px !important;
+            /* Just enough to clear the 90px header */
+            padding-top: 0 !important;
+            /* NO extra padding */
+            padding-bottom: 80px !important;
+        }
+
+        .view,
+        .home-container,
+        .container {
+            padding-top: 0 !important;
+            /* NO extra padding inside views */
+            margin-top: 0 !important;
+        }
+
+        header.navbar {
+            height: 90px !important;
+            /* Slightly increased header */
+            display: flex !important;
+            align-items: center !important;
+            z-index: 9999 !important;
+            overflow: visible !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        /* CLOCK: Smaller scale to fit in header without overflow */
+        .clock-wrapper {
+            transform: scale(0.7) !important;
+            transform-origin: center center !important;
+            margin: 0 !important;
+            padding: 8px 15px !important;
+            max-width: 200px !important;
+        }
+
+        /* FONT SIZE: ONLY affects actual prayer text paragraphs - NOT titles, options, or instructions */
+        #prayer-text .prayer-paragraph,
+        #prayer-view .prayer-paragraph,
+        #birkat-view .prayer-paragraph,
+        #meein-view .prayer-paragraph,
+        #haderech-view .prayer-paragraph,
+        .prayer-content .prayer-paragraph {
+            font-size: var(--prayer-font-size, 1.4rem) !important;
+            line-height: 1.5 !important;
+        }
+
+        /* Optional prayers and instructions should ALSO scale with font size */
+        .optional-prayer p,
+        .optional-prayer .hebrew-text,
+        .prayer-instruction p {
+            font-size: var(--prayer-font-size, 1.4rem) !important;
+        }
+
+        /* Titles and headers: FIXED SIZE - do NOT scale */
+        .prayer-main-title,
+        .prayer-header,
+        .prayer-subtitle,
+        h2.prayer-main-title,
+        h3.prayer-header,
+        h4.prayer-subtitle {
+            font-size: 1.1rem !important;
+            /* Fixed size */
+        }
+
+        .bracha-start {
+            font-weight: 800 !important;
+            font-size: 1.1em !important;
+        }
+
+        /* BOOK ICON: Raised higher - 120px from bottom */
+        #prayer-fab-container {
+            bottom: 120px !important;
+            left: 20px !important;
+            z-index: 10000 !important;
+        }
+
+        /* PARCHMENT MODE: CSS gradient (no image dependency) */
+        body.parchment-active #prayer-view .prayer-content-wrapper,
+        body.parchment-active #birkat-view .glass-card,
+        body.parchment-active #meein-view .glass-card,
+        body.parchment-active #haderech-view .glass-card {
+            background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+            background-color: #f4ead5 !important;
+            border: 2px double #c4a775 !important;
+        }
+
+        body.parchment-active #prayer-text,
+        body.parchment-active .prayer-paragraph {
+            color: #3d2c1e !important;
+        }
+
+        /* Parchment mode should NOT change header, sidebar, home cards */
+        body.parchment-active header.navbar,
+        body.parchment-active .sidebar,
+        body.parchment-active #home-view,
+        body.parchment-active .grid-menu .card {
+            background-image: none !important;
+            background: inherit !important;
+        }
+
+        /* IN-PRAYER SECTION NAV BUTTON (floating) */
+        #section-nav-fab {
+            position: fixed;
+            bottom: 140px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gold, #fbbf24);
+            color: black;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            /* Hidden by default, shown in prayer view */
+        }
+
+        #section-nav-fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Show in prayer views */
+        #prayer-view:not(.hidden)~#section-nav-fab,
+        body:has(#prayer-view:not(.hidden)) #section-nav-fab {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CARD SPLIT ACTION STYLES */
+        .card.prayer-card {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: stretch !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .card-content {
+            flex: 1;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-action-side {
+            width: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card-action-side:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        /* TOC Modal Styles */
+        div#toc-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-list {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            width: 300px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-list button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .modal-list button:hover {
+            background: var(--gold);
+            color: black;
+            transform: scale(1.02);
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <!-- Sidebar Overlay -->
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="window.closeSidebar()"></div>
+
+
+
+    <!-- Sidebar Menu -->
+    <nav class="sidebar" id="sidebar">
+        <h3 style="color: white; margin-bottom: 20px;">Menu</h3>
+        <div class="sidebar-nav">
+            <a href="#" onclick="window.goHome(); window.closeSidebar();">Home</a>
+            <a href="#" onclick="window.setupView('shacharit'); window.closeSidebar();">Shacharit</a>
+            <a href="#" onclick="window.setupView('mincha'); window.closeSidebar();">Mincha</a>
+            <a href="#" onclick="window.setupView('arvit'); window.closeSidebar();">Arvit</a>
+            <a href="#" onclick="window.setupView('birkat'); window.closeSidebar();">Birkat HaMazon</a>
+            <a href="#" onclick="window.setupView('meein'); window.closeSidebar();">Al Hamichya</a>
+            <a href="#" onclick="window.setupView('haderech'); window.closeSidebar();">Tefilat HaDerech</a>
+            <a href="#" onclick="window.setupView('tehillim'); window.closeSidebar();">Tehillim</a>
+            <a href="#" onclick="window.setupView('parasha'); window.closeSidebar();">Parasha</a>
+        </div>
+    </nav>
+
+
+
+    <div id="app">
+
+        <header class="navbar glass">
+
+            <div class="header-left">
+
+                <!-- Hamburger Menu Left of Logo -->
+                <div class="hamburger-menu" onclick="window.toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <button id="back-btn" class="hidden" aria-label="Go Back" onclick="window.goHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="logo-wrapper" onclick="window.goHome()">
+                    <img id="app-logo" src="img/logo-dark.png" alt="Eli's Prayers"
+                        style="height: 90px !important; width: auto !important; max-height: none !important;">
+                </div>
+
+            </div>
+
+            <div class="header-center">
+
+                <h1 id="page-title" class="hidden">Eli's Prayers</h1>
+
+                <div class="clock-wrapper">
+
+                    <div id="analog-clock" class="clock-face">
+                        <div class="hand hour-hand"></div>
+                        <div class="hand minute-hand"></div>
+                        <div class="hand second-hand"></div>
+                        <div class="center-dot"></div>
+                    </div>
+
+                    <div class="clock-text"
+                        style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; line-height: 1.1;">
+                        <div class="time-row" style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="header-time" class="time-display"
+                                style="font-family: 'Assistant', sans-serif; color: #fbbf24; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">--:--:--</span>
+                            <span id="bdi-avad-inline"
+                                style="font-size: 0.75rem; color: rgba(255,255,255,0.6); white-space: nowrap;"></span>
+                        </div>
+                        <div class="countdown-row"
+                            style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: white;">
+                            <span id="zman-countdown" style="font-weight: 500;">Loading...</span>
+                        </div>
+                        <div class="date-row"
+                            style="font-size: 0.8rem; color: rgba(255,255,255,0.8); display: flex; gap: 8px;">
+                            <span id="header-date">...</span>
+                            <span>•</span>
+                            <button id="calendar-btn-clock" onclick="window.setupView('calendar')"
+                                title="View Calendar">📅</button>
+                            <span id="header-hebrew-date" class="hebrew-text">...</span>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Quote Moved Under Clock -->
+                <span id="daily-quote">"Shiviti Hashem Lenegdi Tamid"</span>
+
+            </div>
+
+            <div class="header-right-group">
+
+                <span class="bsd-text">&#1489;&#1505;"&#1491;</span>
+
+                <div class="header-controls">
+
+                    <!-- Search Moved to Prayer Nav -->
+
+                    <button id="theme-btn" onclick="window.toggleTheme()" aria-label="Toggle Theme"
+                        title="Dark/Light Mode">&#127769;</button>
+
+                    <button id="parchment-btn" onclick="window.togglePrayerBg()" aria-label="Toggle Prayer Background"
+                        title="Prayer Background">&#128220;</button>
+
+                    <button id="font-plus" onclick="window.adjustPrayerFont(0.1)" aria-label="Increase Prayer Font"
+                        title="Larger Text">A+</button>
+
+                    <button id="font-minus" onclick="window.adjustPrayerFont(-0.1)" aria-label="Decrease Prayer Font"
+                        title="Smaller Text">A-</button>
+
+                    <button id="align-btn" onclick="window.toggleAlign()" aria-label="Toggle Alignment"
+                        title="Align Text">&#8596;</button>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <main id="main-container" class="content-area" style="margin-top: 85px !important; padding-top: 0 !important;">
+
+            <!-- Home -->
+
+            <section id="home-view" class="view active" style="padding-top: 0 !important; margin-top: 0 !important;">
+
+                <div class="home-container" style="margin-top: 0 !important;">
+
+                    <!-- Left Column: Menu -->
+
+                    <div class="home-left">
+
+                        <!-- Centered Welcome -->
+
+                        <div class="welcome-banner text-center" style="margin-bottom: 10px;">
+
+                            <h1 id="welcome-msg" style="font-size: 1.4rem; color: #60a5fa;">
+
+                                Welcome to My All-in-One Prayer App</h1>
+
+                            <p style="font-size: 0.85rem; opacity: 0.85; margin-top: 3px;">Your complete Edot HaMizrach
+
+                                Siddur</p>
+
+                        </div>
+
+
+
+                        <!-- TOP WIDGET ROW: Weather + Wisdom | Zmanim -->
+
+                        <div class="widget-row"
+                            style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+
+
+                            <!-- Left Side: Weather + Daily Wisdom -->
+                            <div style="flex: 1; min-width: 350px; display: flex; flex-direction: column; gap: 20px;">
+
+                                <!-- WEATHER WIDGET (Fouita) -->
+                                <div class="weather-section glass-card"
+                                    style="padding: 15px; border-radius: 20px; overflow: hidden; min-height: 200px;">
+                                    <div data-key="Horizontal Weather" class="ft" id="ftuhkgl9ak"></div>
+                                    <script src="https://wdg.fouita.com/widgets/0x3ab568.js"></script>
+                                </div>
+
+                                <!-- DAILY WISDOM CARD -->
+                                <div class="glass-card"
+                                    style="padding: 20px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+                                    <h3
+                                        style="margin-bottom: 10px; color: #fbbf24; font-family: Assistant, sans-serif;">
+                                        Daily Wisdom</h3>
+                                    <p style="font-style: italic; opacity: 0.9; font-size: 1.1rem; line-height: 1.4;">
+                                        "Who is wise? One who learns from every man."</p>
+                                    <p style="font-size: 0.85rem; margin-top: 8px; opacity: 0.6; font-weight: 500;">-
+                                        Ben Zoma, Pirkei Avot 4:1</p>
+                                </div>
+
+                            </div>
+
+                            <!-- ZMANIM WIDGET (Internal Custom Style) -->
+                            <div id="home-zmanim-container" class="glass-card"
+                                style="flex: 1; min-width: 350px; max-width: 400px; padding: 20px; border-radius: 20px; overflow: hidden; min-height: 500px; max-height: 500px; display: block;">
+                                <div id="zmanim-card-content">
+                                    <div style="text-align: center; margin-top: 50px;">Loading Times...</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SEARCH BAR -->
+                        <div class="search-bar-container glass-card" onclick="window.toggleSearch()"
+                            style="margin-bottom: 25px; display: flex; align-items: center; padding: 12px 20px; cursor: pointer; transition: transform 0.2s;">
+                            <span style="font-size: 1.2rem; margin-right: 12px;">&#128269;</span>
+                            <span style="color: rgba(255,255,255,0.6); font-size: 1rem;">Search prayers...</span>
+                        </div>
+
+                        <h3 class="section-header">DAILY PRAYERS</h3>
+
+                        <div class="grid-menu">
+
+                            <!-- Shacharit Split Card -->
+                            <div class="card glass-card prayer-card">
+                                <div class="card-content" onclick="window.setupView('shacharit')">
+                                    <svg class="prayer-icon" width="56" height="56" viewBox="0 0 24 24" fill="#F97316">
+                                        <circle cx="12" cy="12" r="6" />
+                                        <path stroke="#F97316" stroke-width="3" stroke-linecap="round"
+                                            d="M12 2V4 M12 20V22 M4 12H2 M22 12H20 M19.07 4.93L17.66 6.34 M6.34 17.66L4.93 19.07 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07" />
+                                    </svg>
+                                    <h3>Shacharit</h3>
+                                    <p class="hebrew-text" style="direction: rtl;">תפילת שחרית</p>
+                                    <p>Morning Service</p>
+                                </div>
+                                <div class="card-action-side" onclick="window.openSectionModal('shacharit', event)">
+                                    <span style="font-size: 1.5rem;">☰</span>
+                                    <span style="font-size:0.7rem;">Jump</span>
+                                </div>
+                            </div>
+
+                            <!-- Mincha Split Card -->
+                            <div class="card glass-card prayer-card">
+                                <div class="card-content" onclick="window.setupView('mincha')">
+                                    <svg class="prayer-icon" width="56" height="56" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9" fill="#EAB308" />
+                                    </svg>
+                                    <h3>Mincha</h3>
+                                    <p class="hebrew-text" style="direction: rtl;">מנחה</p>
+                                    <p>Afternoon Service</p>
+                                </div>
+                                <div class="card-action-side" onclick="window.openSectionModal('mincha', event)">
+                                    <span style="font-size: 1.5rem;">☰</span>
+                                    <span style="font-size:0.7rem;">Jump</span>
+                                </div>
+                            </div>
+
+                            <!-- Arvit Split Card -->
+                            <div class="card glass-card prayer-card">
+                                <div class="card-content" onclick="window.setupView('arvit')">
+                                    <svg class="prayer-icon" width="56" height="56" viewBox="0 0 24 24">
+                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#CBD5E1" />
+                                    </svg>
+                                    <h3>Arvit</h3>
+                                    <p class="hebrew-text" style="direction: rtl;">ערבית</p>
+                                    <p>Evening Service</p>
+                                </div>
+                                <div class="card-action-side" onclick="window.openSectionModal('arvit', event)">
+                                    <span style="font-size: 1.5rem;">☰</span>
+                                    <span style="font-size:0.7rem;">Jump</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- BLESSINGS SECTION -->
+
+                        <h3 class="section-header">BLESSINGS</h3>
+
+                        <div class="grid-menu">
+
+                            <button class="card glass-card" onclick="window.setupView('haderech')">
+
+                                <span class="icon">&#128663;</span>
+
+                                <h3>Tefilat Haderech</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1514;&#1508;&#1497;&#1500;&#1514;
+                                    &#1492;&#1491;&#1512;&#1498;</p>
+                                <p>Traveler's Prayer</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('birkat')">
+
+                                <span class="icon">&#127838;</span>
+
+                                <h3>Birkat Hamazon</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1489;&#1512;&#1499;&#1514;
+                                    &#1492;&#1502;&#1494;&#1493;&#1503;</p>
+                                <p>Grace After Meals</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('meein-view')">
+
+                                <span class="icon">&#127815;</span>
+
+                                <h3>Meein Shalosh</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1502;&#1506;&#1497;&#1503;
+                                    &#1513;&#1500;&#1493;&#1513;</p>
+                                <p>Al Hamichya</p>
+
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- TOOLS SECTION -->
+
+                        <h3 class="section-header">TOOLS</h3>
+
+                        <div class="grid-menu">
+
+                            <button class="card glass-card featured-gold" onclick="window.setupView('parasha')">
+
+                                <span class="icon">&#128220;</span>
+
+                                <h3>Weekly Parasha</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1508;&#1512;&#1513;&#1514;
+                                    &#1492;&#1513;&#1489;&#1493;&#1506;</p>
+                                <p>Summary & Times</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('zmanim')">
+
+                                <span class="icon">&#128338;</span>
+
+                                <h3>Zmanim</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1494;&#1502;&#1504;&#1497;&#1501;</p>
+                                <p>Halachic Times</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('calendar')"> <span
+                                    class="icon">&#128197;</span>
+
+                                <h3>Calendar</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1500;&#1493;&#1495;
+                                    &#1513;&#1504;&#1492;</p>
+                                <p>Hillulot & Holidays</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('resources')"> <span
+                                    class="icon">&#128218;</span>
+
+                                <h3>Resources</h3>
+                                <p class="hebrew-text" style="direction: rtl;">
+                                    &#1502;&#1513;&#1488;&#1489;&#1497;&#1501;</p>
+                                <p>Siddurim & More</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('tehillim')"
+                                style="opacity: 0.7;">
+
+                                <span class="icon">&#128214;</span>
+
+                                <h3>Tehillim</h3>
+                                <p class="hebrew-text" style="direction: rtl;">
+                                    &#1514;&#1492;&#1497;&#1500;&#1497;&#1501;</p>
+                                <p style="font-size: 0.7rem;">Coming Soon</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('omer')" style="opacity: 0.7;">
+
+                                <span class="icon">&#127806;</span>
+
+                                <h3>Sefirat HaOmer</h3>
+                                <p class="hebrew-text" style="direction: rtl;">&#1505;&#1508;&#1497;&#1512;&#1514;
+                                    &#1492;&#1506;&#1493;&#1502;&#1512;</p>
+                                <p style="font-size: 0.7rem;">Coming Soon</p>
+
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- COMMUNITY SECTION -->
+
+                        <h3 class="section-header">&#129309; Community</h3>
+
+                        <div class="grid-menu">
+
+                            <button class="card glass-card featured" onclick="window.setupView('announcements')"> <span
+                                    class="icon">&#128227;</span>
+
+                                <h3>Announcements</h3>
+
+                                <p>Updates & News</p>
+
+                            </button>
+
+                            <button class="card glass-card" onclick="window.setupView('donate')"> <span
+                                    class="icon">&#128176;</span>
+
+                                <h3>Donate</h3>
+
+                                <p>Support</p>
+
+                            </button>
+
+                            <button class="card glass-card featured" onclick="window.setupView('store')"> <span
+                                    class="icon">&#128085;</span>
+
+                                <h3>Merch Store</h3>
+
+                                <p>Custom T-Shirts</p>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+    </div>
+
+    </section>
+
+
+
+    <!-- Prayer View -->
+
+    <section id="prayer-view" class="view hidden" style="padding-top: 0 !important; margin-top: 0 !important;">
+
+        <div class="prayer-content-wrapper glass-card">
+
+            <div id="prayer-text" class="hebrew-text" dir="rtl"></div>
+
+        </div>
+
+        <!-- Back to Top Button -->
+
+        <button id="back-to-top" class="hidden" onclick="window.scrollToTop()" aria-label="Back to Top">
+
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m18 15-6-6-6 6" />
+            </svg>
+
+        </button>
+
+    </section>
+
+
+
+    <!-- Parasha View -->
+
+    <section id="parasha-view" class="view hidden">
+
+        <div class="glass-card">
+
+            <h2 id="parasha-title">Weekly Parasha</h2>
+
+            <p class="subtitle" id="parasha-date">Date</p>
+
+
+
+            <div class="parasha-content-grid">
+
+                <div class="parasha-section">
+
+                    <h3>Summary</h3>
+
+                    <div id="parasha-summary">Loading...</div>
+
+                </div>
+                <div class="parasha-section">
+
+                    <h3>Shabbat Times</h3>
+
+                    <div id="parasha-times">Loading...</div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="parasha-extras">
+
+                <h3>For the Kids</h3>
+
+                <div id="parasha-kids">Loading...</div>
+
+            </div>
+
+
+
+            <div class="parasha-resources">
+
+                <h3>Printable Resources</h3>
+
+                <div id="parasha-links">Loading...</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Zmanim View (Full) -->
+
+    <section id="zmanim-view" class="view hidden">
+
+        <div class="glass-card full-width-card">
+
+            <h2>Halachic Times</h2>
+
+            <!-- Same script but for full view -->
+
+            <div id="zmanim-embed-full">
+
+                <script type="text/javascript" charset="UTF-8" language="javascript"
+                    src="https://www.myzmanim.com/widget.aspx?lang=en&mode=Standard&fsize=15&fcolor=003BBE&hcolor=EBF1FF&bcolor=C0C0C0&suf=t&key=lJNz9WDL7h2dNUB%2fUTF6cdiQ1rpfxj71%2fQlzQQxVostY%2fI5pBxQhOEtjLIUGatLPs6mjg2DqDqcjHG9bTX5UhBQughsoPvleGIP7YCZkVRILNwZ3J14u8%2bIqNmoY4DU%2f"></script>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Other Views -->
+
+    <section id="calendar-view" class="view hidden">
+
+        <div class="glass-card">
+
+            <h2>Tzadikim Hillulot</h2>
+
+            <p class="subtitle">Commemorating our Sages</p>
+
+            <div id="calendar-content" class="rabbis-grid">
+
+                <!-- JS renders here -->
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Tefilat Haderech View -->
+
+    <section id="haderech-view" class="view hidden">
+
+        <div class="glass-card" style="padding: 15px;">
+
+            <h2>&#1514;&#1508;&#1497;&#1500;&#1514; &#1492;&#1491;&#1512;&#1498;</h2>
+
+            <p class="subtitle">Tefilat Haderech - Traveler's Prayer</p>
+
+
+
+            <!-- Instructions Box -->
+
+            <div class="optional-prayer" style="margin: 15px 0 20px 0; text-align: left; direction: ltr;">
+
+                <span class="instruction" style="font-weight: 600;">When to say Tefilat HaDerech:</span>
+
+                <p style="font-size: 0.9rem; margin-top: 8px;">Anyone making a journey of at least 72 minutes should
+
+                    recite the following prayer preferably while standing, after leaving the city.</p>
+
+            </div>
+
+
+
+            <div id="haderech-text" class="hebrew-text" dir="rtl" style="font-size: 1.4rem; line-height: 2;">
+
+                <!-- Introduction -->
+                <p style="font-weight: 600; margin-bottom: 15px;">היוצא לדרך, לאחר שיצא מהעיר אומר תפלה זו:</p>
+
+                <!-- Main Bracha -->
+                <h3 class="prayer-header">הברכה</h3>
+
+                <p><span class="bracha-start">יְהִי</span> רָצוֹן מִלְפָנֶיךָ יי אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ,</p>
+
+                <p>שֶׁתּוֹלִיכֵנוּ לְשָׁלוֹם וְתַצְעִידֵנוּ לְשָׁלוֹם וְתַדְרִיכֵנוּ לְשָׁלוֹם, (וְתִסְמְכֵנוּ
+                    לְשָׁלוֹם),</p>
+
+                <p>וְתַגִּיעֵנוּ לִמְחוֹז חֶפְצֵנוּ לְחַיִּים וּלְשִׂמְחָה וּלְשָׁלוֹם.</p>
+
+                <div class="optional-prayer">
+                    <span class="instruction">אם דעתו לחזור מיד אומר:</span>
+                    <p>(וְתַחְזִירֵנוּ לְשָׁלוֹם)</p>
+                </div>
+
+                <p>וְתַצִּילֵנוּ מִכַּף כָּל אוֹיֵב וְאוֹרֵב וְלִסְטִים וְחַיּוֹת רָעוֹת בַּדֶּרֶךְ,</p>
+
+                <p>וּמִכָּל מִינֵי פֻּרְעָנֻיּוֹת הַמִּתְרַגְּשׁוֹת לָבוֹא לָעוֹלָם,</p>
+
+                <p>וְתִתְּנֵנוּ לְחֵן וּלְחֶסֶד וּלְרַחֲמִים בְּעֵינֶיךָ וּבְעֵינֵי כָל רֹאֵינוּ,</p>
+
+                <p>כִּי אל שׁוֹמֵעַ תְּפִלָּה וְתַחֲנוּן אַתָּה.</p>
+
+                <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה (לפי נוסח ספרד יי) שׁוֹמֵעַ תְּפִלָּה:</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Additional Verses -->
+                <h3 class="prayer-header">פסוקים נוספים</h3>
+
+                <p>כִּי מַלְאָכָיו יְצַוֶּה לָךְ לִשְׁמָרְךָ בְּכָל דְּרָכֶיךָ:</p>
+
+                <p>יי יִשְׁמָר צֵאתְךָ וּבוֹאֶךָ מֵעַתָּה וְעַד עוֹלָם:</p>
+
+                <p>וְיַעֲקֹב הָלַךְ לְדַרְכּוֹ וַיִּפְגְּעוּ בוֹ מַלְאֲכֵי אֱלֹהִים.</p>
+
+                <p>וַיֹּאמֶר יַעֲקֹב כַּאֲשֶׁר רָאָם:</p>
+
+                <p>מַחֲנֵה אֱלֹהִים זֶה, וַיִּקְרָא שֵׁם הַמָּקוֹם הַהוּא מַחֲנָיִם.</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Birkat Kohanim -->
+                <h3 class="prayer-header">ברכת כהנים</h3>
+
+                <p>יְבָרֶכְךָ יי וְיִשְׁמְרֶךָ:</p>
+
+                <p>יָאֵר יי פָּנָיו אֵלֶיךָ וִיחֻנֶּךָּ:</p>
+
+                <p>יִשָּׂא יי פָּנָיו אֵלֶיךָ וְיָשֵׂם לְךָ שָׁלוֹם.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Birkat Hamazon View -->
+
+
+    <section id="birkat-view" class="view hidden">
+        <div class="glass-card" style="padding: 15px;">
+            <div id="birkat-text" class="hebrew-text" dir="rtl" style="font-size: 1.3rem; line-height: 2;">
+                <!-- Birkat Hamazon - Correct Hebrew Text -->
+                <!-- Introduction -->
+                <h3 class="prayer-header">ברכת המזון</h3>
+                <p style="font-weight: 600;">נוסח עדות המזרח</p>
+                <p>יטול מים אחרונים, ויאמר:</p>
+
+                <!-- Tehillim 67 -->
+                <h4 class="prayer-subheader">תהילים מזמור ס"ז</h4>
+                <p>לַמְנַצֵּח בִּנְגִינֹת מִזְמוֹר שִׁיר: אֱלֹהִים יְחָנֵּנוּ וִיבָרְכֵנוּ יָאֵר פָּנָיו אִתָּנוּ סֶלָה:
+                    לָדַעַת
+                    בָּאָרֶץ דַּרְכֶּךָ בְּכָל גּוֹיִם יְשׁוּעָתֶךָ: יוֹדוּךָ עַמִּים אֱלֹהִים יוֹדוּךָ עַמִּים כֻּלָּם:
+                    יִשְׂמְחוּ
+                    וִירַנְּנוּ לְאֻמִּים כִּי תִשְׁפֹּט עַמִּים מִישׁוֹר וּלְאֻמִּים בָּאָרֶץ תַּנְחֵם סֶלָה: יוֹדוּךָ
+                    עַמִּים אֱלֹהִים
+                    יוֹדוּךָ עַמִּים כֻּלָּם: אֶרֶץ נָתְנָה יְבוּלָהּ יְבָרְכֵנוּ אֱלֹהִים אֱלֹהֵינוּ: יְבָרְכֵנוּ
+                    אֱלֹהִים וְיִירְאוּ
+                    אֹתוֹ כָּל אַפְסֵי אָרֶץ:</p>
+
+                <!-- Zimun -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">זימון לפני ברכת המזון</h4>
+                    <p class="instruction">כאשר משתתפים לפחות 3 גברים (או לחילופין 3 נשים)</p>
+                    <p class="instruction">*כאשר משתתפים 10 אנשים בזימון, מוסיפים "אלוהינו" במהלך הזימון</p>
+
+                    <p>אֲבָרְכָה אֶת יְהֹוָה בְּכָל עֵת תָּמִיד תְּהִלָּתוֹ בְּפִי: סוֹף דָּבָר הַכֹּל נִשְׁמָע אֶת
+                        הָאֱלֹהִים יְרָא
+                        וְאֶת מִצְוֹתָיו שְׁמֹר כִּי זֶה כָּל הָאָדָם: תְּהִלַּת יְהֹוָה יְדַבֵּר פִּי וִיבָרֵךְ כָּל
+                        בָּשָׂר שֵׁם
+                        קָדְשׁוֹ לְעוֹלָם וָעֶד: וַאֲנַחְנוּ נְבָרֵךְ יָה מֵעַתָּה וְעַד עוֹלָם הַלְלוּיָהּ: וַיְדַבֵּר
+                        אֵלַי זֶה
+                        הַשֻּׁלְחָן אֲשֶׁר לִפְנֵי יְהֹוָה:</p>
+
+                    <p><strong>אומר המזמן:</strong> הַב לָן וְנִבְרִיךְ לְמַלְכָּא עִלָּאָה קַדִּישָׁא</p>
+                    <p><strong>והמסובים עונים:</strong> שָּׁמַיִם</p>
+                    <p><strong>ואומר המזמן:</strong> בִּרְשׁוּת מַלְכָּא עִלָּאָה קַדִּישָׁא (בסוכות: וּבִרְשׁוּת
+                        שִׁבְעָה
+                        אוּשְׁפִּיזִין עִלָּאִין קַדִּישִׁין) וברשותכם נְבָרֵךְ (בעשרה ויותר: אלהינו) שֶׁאָכַלְנוּ
+                        מִשֶּׁלּוֹ.</p>
+                    <p><strong>והמסובים עונים:</strong> בָּרוּךְ (בעשרה ויותר: אלהינו) שֶׁאָכַלְנוּ מִשֶּׁלּוֹ
+                        וּבְטוּבוֹ חָיִינוּ.</p>
+                    <p><strong>חוזר המזמן:</strong> בָּרוּךְ (בעשרה ויותר: אלהינו) שֶׁאָכַלְנוּ מִשֶּׁלּוֹ וּבְטוּבוֹ
+                        חָיִינוּ.</p>
+                </div>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Bracha 1 - Hazan -->
+                <h3 id="bracha1" class="prayer-header">ברכה ראשונה - הזן</h3>
+                <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הָאֵל הַזָּן
+                    אוֹתָנוּ וְאֶת
+                    הָעוֹלָם כֻּלּוֹ בְּטוּבוֹ בְּחֵן בְּחֶסֶד בְּרֵיוַח וּבְרַחֲמִים רַבִּים. נֹתֵן לֶחֶם לְכָל
+                    בָּשָׂר. כִּי לְעוֹלָם
+                    חַסְדּוֹ: וּבְטוּבוֹ הַגָּדוֹל תָּמִיד לֹא חָסַר לָנוּ וְאַל יֶחְסַר לָנוּ מָזוֹן תָּמִיד לְעוֹלָם
+                    וָעֶד. כִּי הוּא
+                    אֵל זָן וּמְפַרְנֵס לַכֹּל וְשֻׁלְחָנוֹ עָרוּךְ לַכֹּל וְהִתְקִין מִחְיָה וּמָזוֹן לְכָל
+                    בְּרִיּוֹתָיו אֲשֶׁר בָּרָא
+                    בְרַחֲמָיו וּבְרוֹב חֲסָדָיו כָּאָמוּר. פּוֹתֵחַ אֶת יָדֶךָ וּמַשְׂבִּיעַ לְכָל חַי רָצוֹן: <span
+                        class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה, הַזָּן אֶת הַכֹּל:</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Bracha 2 - Nodeh -->
+                <h3 id="bracha2" class="prayer-header">ברכה שניה - נודה</h3>
+                <p><span class="bracha-start">נוֹדֶה</span> לְךָ יְהֹוָה אֱלֹהֵינוּ עַל שֶׁהִנְחַלְתָּ לַאֲבוֹתֵינוּ
+                    אֶרֶץ חֶמְדָּה
+                    טוֹבָה וּרְחָבָה בְּרִית וְתוֹרָה חַיִּים וּמָזוֹן. עַל שֶׁהוֹצֵאתָנוּ מֵאֶרֶץ מִצְרַיִם
+                    וּפְדִיתָנוּ מִבֵּית
+                    עֲבָדִים. וְעַל בְּרִיתְךָ שֶׁחָתַמְתָּ בִּבְשָׂרֵנוּ. וְעַל תּוֹרָתְךָ שֶׁלִּמַּדְתָּנוּ. וְעַל
+                    חֻקֵּי רְצוֹנָךְ
+                    שֶׁהוֹדַעְתָּנוּ. וְעַל חַיִּים וּמָזוֹן שֶׁאַתָּה זָן וּמְפַרְנֵס אוֹתָנוּ:</p>
+
+                <!-- Al Hanissim -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">בחנוכה ופורים אומרים על הניסים:</h4>
+                    <p>וְעַל הַנִּסִּים וְעַל הַפֻּרְקָן. וְעַל הַגְּבוּרות. וְעַל הַתְּשׁוּעות וְעַל הַנִּפְלָאות וְעַל
+                        הַנֶּחָמות
+                        שֶׁעָשִׂיתָ לַאֲבותֵינוּ בַּיָּמִים הָהֵם בַּזְּמַן הַזֶּה:</p>
+
+                    <p><strong>בחנוכה:</strong> בִּימֵי מַתִּתְיָה בֶן יוחָנָן כּהֵן גָּדול חַשְׁמונָאי וּבָנָיו
+                        כְּשֶׁעָמְדָה מַלְכוּת
+                        יָוָן הָרְשָׁעָה עַל עַמְּךָ יִשְׂרָאֵל לְשַׁכְּחָם תּורָתָךְ וּלְהַעֲבִירָם מֵחֻקֵּי רְצונָךְ.
+                        וְאַתָּה
+                        בְרַחֲמֶיךָ הָרַבִּים עָמַדְתָּ לָהֶם בְּעֵת צָרָתָם. רַבְתָּ אֶת רִיבָם. דַּנְתָּ אֶת דִּינָם.
+                        נָקַמְתָּ אֶת
+                        נִקְמָתָם. מָסַרְתָּ גִּבּורִים בְּיַד חַלָּשִׁים. וְרַבִּים בְּיַד מְעַטִּים. וּרְשָׁעִים
+                        בְּיַד צַדִּיקִים.
+                        וּטְמֵאִים בְּיַד טְהורִים. וְזֵדִים בְּיַד עוסְקֵי תורָתֶךָ. לְךָ עָשִׂיתָ שֵׁם גָּדול וְקָדושׁ
+                        בְּעולָמָךְ.
+                        וּלְעַמְּךָ יִשְׂרָאֵל עָשִׂיתָ תְּשׁוּעָה גְדולָה וּפֻרְקָן כְּהַיּום הַזֶּה. וְאַחַר כָּךְ
+                        בָּאוּ בָנֶיךָ
+                        לִדְבִיר בֵּיתֶכָה וּפִנּוּ אֶת הֵיכָלֶכָה. וְטִהֲרוּ אֶת מִקְדָּשֶׁכָה. וְהִדְלִיקוּ נֵרות
+                        בְּחַצְרות קָדְשֶׁכָה.
+                        וְקָבְעוּ שְׁמונַת יְמֵי חֲנֻכָּה אֵלּוּ בְּהַלֵּל וּבְהודָאָה. וְעָשִׂיתָ עִמָּהֶם נִסִּים
+                        וְנִפְלָאות וְנודֶה
+                        לְשִׁמְךָ הַגָּדול סֶלָה:</p>
+
+                    <p><strong>בפורים:</strong> בִּימֵי מָרְדְּכַי וְאֶסְתֵּר בְּשׁוּשַׁן הַבִּירָה. כְּשֶׁעָמַד
+                        עֲלֵיהֶם הָמָן
+                        הָרָשָׁע. בִּקֵּשׁ לְהַשְׁמִיד לַהֲרוג וּלְאַבֵּד אֶת כָּל הַיְּהוּדִים מִנַּעַר וְעַד זָקֵן טַף
+                        וְנָשִׁים
+                        בְּיום אֶחָד בִּשְׁלשָׁה עָשָׂר לְחדֶשׁ שְׁנֵים עָשָׂר הוּא חדֶשׁ אֲדָר וּשְׁלָלָם לָבוז.
+                        וְאַתָּה בְרַחֲמֶיךָ
+                        הָרַבִּים הֵפַרְתָּ אֶת עֲצָתו. וְקִלְקַלְתָּ אֶת מַחֲשַׁבְתּו. וַהֲשֵׁבותָ לּו גְּמוּלו
+                        בְּראשׁו. וְתָלוּ אותו
+                        וְאֶת בָּנָיו עַל הָעֵץ. וְעָשִׂיתָ עִמָּהֶם נֵס וָפֶלֶא וְנודֶה לְשִׁמְךָ הַגָּדול סֶלָה:</p>
+                </div>
+
+                <p>וְעַל הַכֹּל יְהֹוָה אֱלֹהֵינוּ אֲנַחְנוּ מוֹדִים לָךְ וּמְבָרְכִים אֶת שְׁמָךְ כָּאָמוּר וְאָכַלְתָּ
+                    וְשָׂבָעְתָּ.
+                    וּבֵרַכְתָּ אֶת יְהֹוָה אֱלֹהֶיךָ עַל הָאָרֶץ הַטּוֹבָה אֲשֶׁר נָתַן לָךְ: <span
+                        class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה, עַל הָאָרֶץ וְעַל הַמָּזוֹן:</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Bracha 3 - Rachem -->
+                <h3 id="bracha3" class="prayer-header">ברכה שלישית - רחם</h3>
+                <p><span class="bracha-start">רַחֵם</span> יְהֹוָה אֱלֹהֵינוּ עָלֵינוּ וְעַל יִשְׂרָאֵל עַמָּךְ. וְעַל
+                    יְרוּשָׁלַיִם
+                    עִירָךְ. וְעַל הַר צִיּוֹן מִשְׁכַּן כְּבוֹדָךְ. וְעַל הֵיכָלָךְ. וְעַל מְעוֹנָךְ. וְעַל דְּבִירָךְ.
+                    וְעַל הַבַּיִת
+                    הַגָּדוֹל וְהַקָּדוֹשׁ שֶׁנִּקְרָא שִׁמְךָ עָלָיו. אָבִינוּ רְעֵנוּ זוּנֵנוּ. פַּרְנְסֵנוּ.
+                    כַּלְכְּלֵנוּ.
+                    הַרְוִיחֵנוּ, הַרְוַח לָנוּ מְהֵרָה מִכָּל צָרוֹתֵינוּ. וְנָא אַל תַּצְרִיכֵנוּ יְהֹוָה אֱלֹהֵינוּ
+                    לִידֵי מַתְּנוֹת
+                    בָּשָׂר וָדָם. וְלֹא לִידֵי הַלְוָאָתָם. אֶלָּא לְיָדְךָ הַמְּלֵאָה וְהָרְחָבָה. הָעֲשִׁירָה
+                    וְהַפְּתוּחָה. יְהִי
+                    רָצוֹן שֶׁלֹּא נֵבוֹשׁ בָּעוֹלָם הַזֶּה. וְלֹא נִכָּלֵם לְעוֹלָם הַבָּא. וּמַלְכוּת בֵּית דָּוִד
+                    מְשִׁיחָךְ
+                    תַּחֲזִירֶנָּה לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵינוּ:</p>
+
+                <!-- Yaaleh Veyavo -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">בראש חודש ובחול המועד אומרים "יעלה ויבוא":</h4>
+                    <p>אֱלהֵינוּ וֵאלהֵי אֲבותֵינוּ יַעֲלֶה וְיָבא וְיַגִּיעַ וְיֵרָאֶה וְיֵרָצֶה וְיִשָּׁמַע וְיִפָּקֵד
+                        וְיִזָּכֵר
+                        זִכְרונֵנוּ וְזִכְרון אֲבותֵינוּ. זִכְרון יְרוּשָׁלַיִם עִירָךְ. וְזִכְרון מָשִׁיחַ בֶּן דָּוִד
+                        עַבְדָּךְ.
+                        וְזִכְרון כָּל עַמְּךָ בֵּית יִשְׂרָאֵל לְפָנֶיךָ לִפְלֵיטָה לְטובָה. לְחֵן לְחֶסֶד
+                        וּלְרַחֲמִים. לְחַיִּים
+                        טובִים וּלְשָׁלום. בְּיום:</p>
+                    <p>בראש חודש - רֹאשׁ חֹדֶשׁ הַזֶּה:</p>
+                    <p>בחול המועד פסח - חַג הַמַּצּות הַזֶּה. בְּיום מִקְרָא קֹדֶשׁ הַזֶּה:</p>
+                    <p>בחול המועד סוכות - חַג הַסֻּכּות הַזֶּה. בְּיום מִקְרָא קֹדֶשׁ הַזֶּה:</p>
+                    <p>לְרַחֵם בּו עָלֵינוּ וּלְהושִׁיעֵנוּ. זָכְרֵנוּ ה' אֱלהֵינוּ בּו לְטובָה. וּפָקְדֵנוּ בו
+                        לִבְרָכָה. וְהושִׁיעֵנוּ
+                        בו לְחַיִּים טובִים. בִּדְבַר יְשׁוּעָה וְרַחֲמִים. חוּס וְחָנֵּנוּ וַחֲמול וְרַחֵם עָלֵינוּ.
+                        וְהושִׁיעֵנוּ כִּי
+                        אֵלֶיךָ עֵינֵינוּ. כִּי אֵל מֶלֶךְ חַנּוּן וְרַחוּם אָתָּה:</p>
+                </div>
+
+                <p>וְתִבְנֶה יְרוּשָׁלַיִם עִירָךְ בִּמְהֵרָה בְיָמֵינוּ: <span class="bracha-start">בָּרוּךְ</span>
+                    אַתָּה יְהֹוָה,
+                    בּוֹנֵה יְרוּשָׁלָיִם (ואומר בלחש – אָמֵן):</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Bracha 4 - Hatov Vehameitiv -->
+                <h3 id="bracha4" class="prayer-header">ברכה רביעית - הטוב והמטיב</h3>
+                <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם. לָעַד הָאֵל
+                    אָבִינוּ מַלְכֵּנוּ
+                    אַדִּירֵנוּ. בּוֹרְאֵנוּ. גּוֹאֲלֵנוּ. קְדוֹשֵׁנוּ. קְדוֹשׁ יַעֲקֹב. רוֹעֵנוּ רוֹעֵה יִשְׂרָאֵל.
+                    הַמֶּלֶךְ הַטּוֹב
+                    וְהַמֵּטִיב לַכֹּל. שֶׁבְּכָל יוֹם וָיוֹם הוּא הֵטִיב לָנוּ. הוּא מֵטִיב לָנוּ. הוּא יֵיטִיב לָנוּ.
+                    הוּא גְמָלָנוּ.
+                    הוּא גוֹמְלֵנוּ. הוּא יִגְמְלֵנוּ לָעַד חֵן וָחֶסֶד וְרַחֲמִים וְרֵיוַח וְהַצָּלָה וְכָל טוֹב:</p>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Harachaman -->
+                <h3 id="harachaman" class="prayer-header">הרחמן</h3>
+                <p>הָרַחֲמָן הוּא יִשְׁתַּבַּח עַל כִּסֵּא כְבוֹדוֹ:</p>
+                <p>הָרַחֲמָן הוּא יִשְׁתַּבַּח בַּשָּׁמַיִם וּבָאָרֶץ:</p>
+                <p>הָרַחֲמָן הוּא יִשְׁתַּבַּח בָּנוּ לְדוֹר דּוֹרִים:</p>
+                <p>הָרַחֲמָן הוּא קֶרֶן לְעַמּוֹ יָרִים:</p>
+                <p>הָרַחֲמָן הוּא יִתְפָּאַר בָּנוּ לָנֶצַח נְצָחִים:</p>
+                <p>הָרַחֲמָן הוּא יְפַרְנְסֵנוּ בְּכָבוֹד וְלֹא בְבִזּוּי בְּהֶתֵּר וְלֹא בְאִסּוּר בְּנַחַת וְלֹא
+                    בְצַעַר:</p>
+                <p>הָרַחֲמָן הוּא יִתֵּן שָׁלוֹם בֵּינֵינוּ:</p>
+                <p>הָרַחֲמָן הוּא יִשְׁלַח בְּרָכָה רְוָחָה וְהַצְלָחָה בְּכָל מַעֲשֵׂה יָדֵינוּ:</p>
+                <p>הָרַחֲמָן הוּא יַצְלִיחַ אֶת דְּרָכֵינוּ:</p>
+                <p>הָרַחֲמָן הוּא יִשְׁבּוֹר עוֹל גָּלוּת מְהֵרָה מֵעַל צַוָּארֵנוּ:</p>
+                <p>הָרַחֲמָן הוּא יוֹלִיכֵנוּ מְהֵרָה קוֹמְמִיּוּת לְאַרְצֵנוּ:</p>
+                <p>הָרַחֲמָן הוּא יִרְפָּאֵנוּ רְפוּאָה שְׁלֵמָה רְפוּאַת הַנֶּפֶשׁ וּרְפוּאַת הַגּוּף:</p>
+                <p>הָרַחֲמָן הוּא יִפְתַּח לָנוּ אֶת יָדוֹ הָרְחָבָה:</p>
+                <p>הָרַחֲמָן הוּא יְבָרֵךְ כָּל אֶחָד וְאֶחָד מִמֶּנּוּ בִּשְׁמוֹ הַגָּדוֹל כְּמוֹ שֶׁנִּתְבָּרְכוּ
+                    אֲבוֹתֵינוּ
+                    אַבְרָהָם יִצְחָק וְיַעֲקֹב בַּכֹּל מִכֹּל כֹּל. כֵּן יְבָרֵךְ אוֹתָנוּ יַחַד בְּרָכָה שְׁלֵמָה.
+                    וְכֵן יְהִי רָצוֹן
+                    וְנֹאמַר אָמֵן:</p>
+                <p>הָרַחֲמָן הוּא יִפְרוֹשׂ עָלֵינוּ סֻכַּת שְׁלוֹמוֹ:</p>
+
+                <!-- Holiday Additions -->
+                <div class="optional-prayer">
+                    <p><strong>בראש חודש מוסיפים:</strong> הָרַחֲמָן הוּא יְחַדֵּשׁ עָלֵינוּ אֶת הַחֹדֶשׁ הַזֶּה
+                        לְטוֹבָה וְלִבְרָכָה:
+                    </p>
+                    <p><strong>בימי חג הסוכות מוסיפים:</strong> הָרַחֲמָן הוּא יְזַכֵּנוּ לֵישֵׁב בְּסֻכַּת עוֹרוֹ שֶׁל
+                        לִוְיָתָן:
+                        הָרַחֲמָן הוּא יַשְׁפִּיעַ עָלֵינוּ שֶׁפַע קְדֻשָּׁה וְטָהֳרָה מִשִּׁבְעָה אוּשְׁפִּיזִין
+                        עִלָּאִין קַדִּישִׁין.
+                        זְכוּתָם תְּהֵא מָגֵן וְצִנָּה עָלֵינוּ:</p>
+                    <p><strong>במועדים וחגים מוסיפים:</strong> הָרַחֲמָן הוּא יַגִּיעֵנוּ לְמוֹעֲדִים אֲחֵרִים הַבָּאִים
+                        לִקְרָאתֵנוּ
+                        לְשָׁלוֹם:</p>
+                </div>
+
+                <p>הָרַחֲמָן הוּא יִטַּע תּוֹרָתוֹ וְאַהֲבָתוֹ בְּלִבֵּנוּ וְתִהְיֶה יִרְאָתוֹ עַל פָּנֵינוּ לְבִלְתִּי
+                    נֶחֱטָא.
+                    וְיִהְיוּ כָל מַעֲשֵׂינוּ לְשֵׁם שָׁמָיִם:</p>
+
+                <!-- Guest Blessing -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">ברכת האורח:</h4>
+                    <p>הָרַחֲמָן הוּא יְבָרֵךְ אֶת הַשֻּׁלְחָן הַזֶּה שֶׁאָכַלְנוּ עָלָיו וִיסַדֵּר בּוֹ כָּל מַעֲדַנֵּי
+                        עוֹלָם
+                        וְיִהְיֶה כְּשֻׁלְחָנוֹ שֶׁל אַבְרָהָם אָבִינוּ (עָלָיו הַשָּׁלוֹם), כָּל רָעֵב מִמֶּנּוּ יאכַל,
+                        וְכָל צָמֵא
+                        מִמֶּנּוּ יִשְׁתֶּה. וְאַל יֶחְסַר מִמֶּנּוּ כָּל טוּב לָעַד וּלְעוֹלְמֵי עוֹלָמִים: הָרַחֲמָן
+                        הוּא יְבָרֵךְ אֶת
+                        בַּעַל הַבַּיִת הַזֶּה וּבַעַל הַסְּעֻדָּה הַזּאת. הוּא וּבָנָיו וְאִשְׁתּוֹ וְכָל אֲשֶׁר לוֹ.
+                        בְּבָנִים
+                        שֶׁיִּחְיוּ. וּבִנְכָסִים שֶׁיִּרְבּוּ. בָּרֵךְ יי חֵילוֹ וּפעַל יָדָיו תִּרְצֶה. וְיִהְיוּ
+                        נְכָסָיו
+                        וּנְכָסֵינוּ מֻצְלָחִים וּקְרוֹבִים לָעִיר. וְאַל יִזְדַּקֵּק לְפָנָיו וְלֹא לְפָנֵינוּ שׁוּם
+                        דְּבַר חֵטְא
+                        וְהִרְהוּר עָוֹן. שָׂשׂ וְשָׂמֵחַ כָּל הַיָּמִים בְּעשֶׁר וְכָבוֹד מֵעַתָּה וְעַד עוֹלָם. לֹא
+                        יֵבוֹשׁ בָּעוֹלָם
+                        הַזֶּה וְלֹא יִכָּלֵם לָעוֹלָם הַבָּא. אָמֵן כֵּן יְהִי רָצוֹן:</p>
+                </div>
+
+                <!-- Wedding Blessing -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">בסעודת חתן:</h4>
+                    <p>הָרַחֲמָן הוּא יְבָרֵךְ אֶת הֶחָתָן וְהַכַּלָּה, בְּבָנִים זְכָרִים שֶׁל קַיָּמָא, לַעֲבוֹדָתוֹ
+                        יִתְבָּרַךְ.
+                        הָרַחֲמָן הוּא יְבָרֵךְ אֶת כָּל הַמְּסֻבִּין בַּשֻּׁלְחָן הַזֶּה, וְיִתֵּן לָנוּ הַקָּדוֹשׁ
+                        בָּרוּךְ הוּא, כָּל
+                        מִשְׁאֲלוֹת לִבֵּנוּ לְטוֹבָה.</p>
+                </div>
+
+                <!-- Brit Milah Blessing -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">בסעודת מילה:</h4>
+                    <p>הָרַחֲמָן הוּא יְבָרֵךְ אֶת בַּעַל הַבַּיִת הַזֶּה, אֲבִי הַבֵּן, הוּא וְאִשְׁתּוֹ הַיּוֹלֶדֶת,
+                        מֵעַתָּה וְעַד
+                        עוֹלָם. הָרַחֲמָן הוּא יְבָרֵךְ אֶת הַיֶּלֶד הַנּוֹלָד, וּכְשֵׁם שֶׁזִּכָּהוּ הַקָּדוֹשׁ
+                        בָּרוּךְ הוּא לְמִילָה,
+                        כָּךְ יְזַכֵּהוּ לְהִכָּנֵס לַתּוֹרָה וּלְחֻפָּה וּלְמִצְוֹת וּלְמַעֲשִׂים טוֹבִים, וְכֵן יְהִי
+                        רָצוֹן וְנֹאמַר
+                        אָמֵן. הָרַחֲמָן הוּא יְבָרֵךְ אֶת מַעֲלַת הַסַּנְדָּק וְהַמּוֹהֵל וּשְׁאָר הַמִּשְׁתַּדְּלִים
+                        בַּמִּצְוָה, הֵם
+                        וְכָל אֲשֶׁר לָהֶם.</p>
+                </div>
+
+                <div class="prayer-section-break"></div>
+
+                <!-- Conclusion -->
+                <p>הָרַחֲמָן הוּא יְחַיֵּינוּ וִיזַכֵּנוּ וִיקָרְבֵנוּ לִימוֹת הַמָּשִׁיחַ וּלְבִנְיַן בֵּית
+                    הַמִּקְדָּשׁ וּלְחַיֵּי
+                    הָעוֹלָם הַבָּא.</p>
+
+                <p>מַגְדִּיל (שמתפללים מוסף, וכן במוצאי שבת אומרים: מִגְדּוֹל) יְשׁוּעוֹת מַלְכּוֹ. וְעֹשֶׂה חֶסֶד
+                    לִמְשִׁיחוֹ לְדָוִד
+                    וּלְזַרְעוֹ עַד עוֹלָם:</p>
+
+                <p>כְּפִירִים רָשׁוּ וְרָעֵבוּ. וְדֹרְשֵׁי יְהֹוָה לֹא יַחְסְרוּ כָל טוֹב:</p>
+
+                <p>נַעַר הָיִיתִי גַּם זָקַנְתִּי וְלֹא רָאִיתִי צַדִּיק נֶעֱזָב. וְזַרְעוֹ מְבַקֶּשׁ לָחֶם:</p>
+
+                <p>כָּל הַיּוֹם חוֹנֵן וּמַלְוֶה. וְזַרְעוֹ לִבְרָכָה:</p>
+
+                <p>מַה שֶׁאָכַלְנוּ יִהְיֶה לְשָׂבְעָה. וּמַה שֶׁשָּׁתִינוּ יִהְיֶה לִרְפוּאָה. וּמַה שֶׁהוֹתַרְנוּ
+                    יִהְיֶה לִבְרָכָה
+                    כְּדִכְתִיב וַיִּתֵּן לִפְנֵיהֶם וַיֹּאכְלוּ וַיּוֹתִירוּ כִּדְבַר יְהֹוָה:</p>
+
+                <p>בְּרוּכִים אַתֶּם לַיהֹוָה. עוֹשֵׂה שָׁמַיִם וָאָרֶץ:</p>
+
+                <p>בָּרוּךְ הַגֶּבֶר אֲשֶׁר יִבְטַח בַּיהֹוָה. וְהָיָה יְהֹוָה מִבְטָחוֹ:</p>
+
+                <p>יְהֹוָה עֹז לְעַמּוֹ יִתֵּן. יְהֹוָה יְבָרֵךְ אֶת עַמּוֹ בַשָּׁלוֹם:</p>
+
+                <p>עוֹשֶׂה שָׁלוֹם בִּמְרוֹמָיו הוּא בְרַחֲמָיו יַעֲשֶׂה שָׁלוֹם עָלֵינוּ וְעַל כָּל עַמּוֹ יִשְׂרָאֵל
+                    וְאִמְרוּ אָמֵן:
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meein Shalosh View (Renamed ID) -->
+    <section id="meein-view" class="view hidden">
+        <div class="glass-card" style="padding: 15px;">
+            <div id="mein-shalosh-text" class="hebrew-text" dir="rtl" style="font-size: 1.3rem; line-height: 2;">
+                <!-- Mein Shalosh (Al Hamichya) - Correct Hebrew Text -->
+
+                <h3 class="prayer-header">מעין שלוש</h3>
+
+                <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם</p>
+
+                <div class="optional-prayer">
+                    <p><strong>על מזונות:</strong></p>
+                    <p>עַל הַמִחְיָה וְעַל הַכַּלְכָּלָה:</p>
+
+                    <p><strong>על היין:</strong></p>
+                    <p>עַל הַגֶּפֶן וְעַל פְּרִי הַגֶּפֶן:</p>
+
+                    <p><strong>על פירות משבעת המינים:</strong></p>
+                    <p>עַל הָעֵץ וְעַל פְּרִי הָעֵץ:</p>
+
+                    <p><strong>על מזונות ויין ביחד:</strong></p>
+                    <p>עַל הַמִּחְיָה וְעַל הַכַּלְכָּלָה וְעַל הַגֶּפֶן וְעַל פְּרִי הַגֶּפֶן:</p>
+                </div>
+
+                <p>וְעַל תְּנוּבַת הַשָּׂדֶה, וְעַל ארֶץ חֶמְדָּה טוֹבָה וּרְחָבָה, שֶׁרָציתָ וְהִנְחלְתָּ לַאֲבוֹתינוּ,
+                    לֶאֱכֹל
+                    מִפִּרְיָהּ וְלִשְׂבֹּעַ מִטּוּבָהּ.</p>
+
+                <p>רַחֵם יְהֹוָה אֱלֹהינוּ עָלינוּ וְעַל יִשְׂרָאֵל עַמָּךְ, וְעַל יְרוּשָׁלַיִם עִירָךְ, וְעַל הַר
+                    צִיּוֹן מִשְׁכַּן
+                    כְּבוֹדָךְ, וְעַל מִזְבָּחָךְ וְעַל הֵיכָלָךְ.</p>
+
+                <p>וּבְנֵה יְרוּשָׁלַיִם עִיר הַקֹּדֶשׁ בִּמְהֵרָה בְיָמֵינוּ, וְהַעֲלֵנוּ לְתוֹכָהּ, וְשַׂמְּחֵנוּ
+                    בְּבִנְיָנָהּ,
+                    וּנְבָרְכָךְ עָליהָ בִּקְדֻשָּׁה וּבְטָהֳרָה:</p>
+
+                <!-- Holiday Additions -->
+                <div class="optional-prayer">
+                    <p><strong>בראש חודש:</strong> וְזָכְרֵנוּ לְטוֹבָה בְּיוֹם רֹאשׁ הַחֹדֶשׁ הַזֶּה:</p>
+                    <p><strong>בחול המועד פסח:</strong> וְשַׂמְּחֵנוּ בְּיוֹם חַג הַמַּצּוֹת הַזֶּה, בְּיוֹם מִקְרָא
+                        קֹדֶשׁ הַזֶּה.</p>
+                    <p><strong>בחול המועד סוכות:</strong> וְשַׂמְּחֵנוּ בְּיוֹם הַסֻּכּוֹת הַזֶּה, בְּיוֹם מִקְרָא
+                        קֹדֶשׁ הַזֶּה.</p>
+                </div>
+
+                <p>כִּי אַתָּה יְהֹוָה טוֹב וּמֵטִיב לַכֹּל וְנוֹדֶה לְךָ עַל הָאָרֶץ</p>
+
+                <!-- Endings by Type -->
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">על מזונות:</h4>
+                    <p>וְעַל הַמִחְיָה:</p>
+                    <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה עַל הָאָרֶץ וְעַל הַמִחְיָה:</p>
+                </div>
+
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">על היין:</h4>
+                    <p>וְעַל פְּרִי הַגֶּפֶן:</p>
+                    <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה עַל הָאָרֶץ וְעַל פְּרִי הַגֶּפֶן:</p>
+                    <p>(בא"י וְעַל פְּרִי גַפְנָהּ):</p>
+                </div>
+
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">על הפירות:</h4>
+                    <p>וְעַל הַפֵּרוֹת:</p>
+                    <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה עַל הָאָרֶץ וְעַל הַפֵּרוֹת:</p>
+                    <p>(בא"י וְעַל פֵּרוֹתֶיהָ):</p>
+                </div>
+
+                <div class="optional-prayer">
+                    <h4 class="prayer-subheader">על מזונות ויין ביחד:</h4>
+                    <p>וְעַל הַמִּחְיָה וְעַל פְּרִי הַגֶּפֶן:</p>
+                    <p><span class="bracha-start">בָּרוּךְ</span> אַתָּה יְהֹוָה עַל הָאָרֶץ וְעַל הַמִחְיָה וְעַל
+                        פְּרִי הַגֶּפֶן:</p>
+                    <p>(בא"י וְעַל פְּרִי גַפְנָהּ):</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Announcements View -->
+
+    <section id="announcements-view" class="view hidden">
+
+        <div class="glass-card">
+
+            <h2>&#128227; Announcements</h2>
+
+            <p class="subtitle">Updates & Community News</p>
+
+
+
+
+            <details style="margin-bottom: 15px;">
+
+                <summary style="cursor:pointer; font-weight:bold;">How can I support the app?</summary>
+
+                <p style="margin-top:5px;">If you enjoy using the app, please consider supporting on <a
+                        href="https://buymeacoffee.com/elir" target="_blank" class="accent-link">Buy Me a Coffee</a>!
+                </p>
+
+                <p style="margin-top:8px;"><strong>&#127873; Special Offer:</strong> Subscribe on Buy Me a Coffee and
+                    get
+
+                    a
+
+                    <strong>FREE customized Eli's Prayers T-shirt</strong> and more merch!
+
+                </p>
+
+                <p style="margin-top:8px;">You can also visit our <a href="https://elit-express.square.site"
+                        target="_blank" class="accent-link">Merch Store</a> for T-shirts and more.</p>
+
+            </details>
+
+            <details style="margin-bottom: 15px;">
+
+                <summary style="cursor:pointer; font-weight:bold;">Want to request a feature?</summary>
+
+                <p style="margin-top:5px;">Have an idea? Found a bug? Please visit our <a href="#"
+                        onclick="window.setupView('contact'); return false;" class="accent-link">Contact page</a>
+
+                    and let us know! Your feedback helps make the app better for everyone.</p>
+
+            </details>
+
+            <details>
+
+                <summary style="cursor:pointer; font-weight:bold;">Why did you create this app?</summary>
+
+                <p style="margin-top:5px;">I created this app to make prayer accessible to everyone. I took time off
+
+                    school to build something that helps our community connect with Hashem. If you want more
+
+                    features faster, your support really helps! &#128591; </p>
+
+            </details>
+
+        </div>
+
+    </section>
+
+    <!-- Donate View (Restored) -->
+    <section id="donate-view" class="view hidden">
+        <div class="glass-card" style="text-align: center; padding: 30px; max-width: 600px; margin: 20px auto;">
+            <h2>&#128176; Support the App</h2>
+            <p style="margin: 15px 0;">Your support helps me keep this app free, add new features (like Tehillim!), and
+                serve the community.</p>
+            <a href="https://buymeacoffee.com/elir" target="_blank"
+                style="display: inline-block; padding: 15px 30px; background: #FFDD00; color: black; font-weight: bold; text-decoration: none; border-radius: 50px; font-size: 1.2rem; margin-top: 10px;">
+                &#9749; Buy Me a Coffee
+            </a>
+            <p style="margin-top: 25px; opacity: 0.8;">You get a FREE T-Shirt when you subscribe!</p>
+            <button onclick="window.setupView('store')"
+                style="background: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer;">Visit
+                Merch Store</button>
+        </div>
+    </section>
+
+    <!-- Store View (Restored) -->
+    <section id="store-view" class="view hidden">
+        <div class="glass-card" style="text-align: center; padding: 20px;">
+            <h2>&#128085; Merch Store</h2>
+            <p>Get official Eli's Prayers gear!</p>
+            <p style="margin: 20px 0;">Visit our store at:</p>
+            <a href="https://elit-express.square.site" target="_blank" class="accent-link"
+                style="font-size: 1.2rem;">elit-express.square.site</a>
+            <br><br>
+            <button onclick="window.goHome()"
+                style="padding: 10px 20px; background: rgba(255,255,255,0.2); border: none; border-radius: 8px; color: white; cursor: pointer;">Back
+                Home</button>
+        </div>
+    </section>
+
+    <!-- Contact View (Restored) -->
+    <section id="contact-view" class="view hidden">
+        <div class="glass-card" style="padding: 20px; max-width: 600px; margin: 20px auto;">
+            <h2>&#128231; Contact Us</h2>
+            <p>We'd love to hear from you!</p>
+            <form onsubmit="alert('Thank you! We will get back to you soon.'); return false;"
+                style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <input type="text" placeholder="Your Name" required
+                    style="padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.2); color: white;">
+                <input type="email" placeholder="Your Email" required
+                    style="padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.2); color: white;">
+                <textarea placeholder="Your Message" rows="5" required
+                    style="padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.2); color: white;"></textarea>
+                <button type="submit"
+                    style="padding: 12px; background: #FFD700; color: black; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;">Send
+                    Message</button>
+            </form>
+            <button onclick="window.goHome()"
+                style="margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid white; border-radius: 8px; color: white; cursor: pointer;">Back
+                Home</button>
+        </div>
+    </section>
+
+    </main>
+
+
+
+    <footer class="app-footer glass">
+
+        <div class="footer-links">
+
+            <a href="#" onclick="window.setupView('about'); return false;">About Me</a>
+
+            <a href="#" onclick="window.setupView('contact'); return false;">Contact</a>
+
+            <a href="#" onclick="window.setupView('faq'); return false;">FAQ</a>
+
+            <a href="https://elit-express.square.site" target="_blank" class="accent-link">Merch Store</a>
+
+            <a href="#" onclick="alert('Coming Soon! Tehillim feature is under construction.'); return false;"
+                class="accent-link">Tehillim</a>
+            <a href="#" onclick="window.setupView('donate'); return false;" class="accent-link">Donate</a>
+
+        </div>
+
+
+
+        <!-- Newsletter -->
+
+        <div class="newsletter-section" style="margin-top: 20px; text-align: center;">
+
+            <p style="font-size: 0.9rem; margin-bottom: 5px;">Subscribe for updates & Dvar Torah</p>
+
+            <form onsubmit="return window.handleSubscribe(event)" style="display: inline-flex; gap: 5px;">
+
+                <input type="email" placeholder="Enter email address..."
+                    style="padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.2); color: white; width: 250px; font-size: 1rem;">
+                <button type="submit"
+                    style="padding: 12px 20px; background: #FFD700; color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;">Subscribe</button>
+
+
+
+
+                <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.6;">&copy; 2026 Eliahou Roffe | <a
+                        href="privacy.html" style="color: inherit; text-decoration: underline;">Privacy Policy</a></p>
+
+    </footer>
+
+    </div>
+
+
+
+    <!-- Scripts -->
+
+
+
+
+    <script src="js/data.js"></script>
+
+    <script src="js/calendar_data.js"></script>
+
+    <script src="js/weather.js"></script>
+
+    <script src="js/zmanim.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="hidden">
+        <div class="search-content glass-card">
+            <div class="search-header">
+                <h3>Search Prayers</h3>
+                <button onclick="window.toggleSearch()" class="close-search">&times;</button>
+            </div>
+            <input type="text" id="search-input" placeholder="Type to search (e.g., Mincha, Travel, Omer)..." autofocus>
+            <div id="search-results" class="search-results-grid">
+                <!-- Results injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING PRAYER MENU (FAB) -->
+    <div id="prayer-fab-container">
+        <!-- Main Button -->
+        <button id="prayer-fab-main" type="button" onclick="event.stopPropagation(); window.toggleFabMenu()">📖</button>
+
+        <!-- Menu (Pop-up) -->
+        <div id="prayer-fab-menu" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; font-weight: bold;">Quick
+                    Nav</span>
+                <button class="fab-close-btn" type="button"
+                    onclick="event.stopPropagation(); window.toggleFabMenu()">✕</button>
+            </div>
+
+            <!-- Added type="button" and stopPropagation to prevent weird form submits -->
+            <button type="button"
+                onclick="event.stopPropagation(); window.setupView('shacharit'); window.toggleFabMenu()">Shacharit</button>
+            <button type="button"
+                onclick="event.stopPropagation(); window.setupView('mincha'); window.toggleFabMenu()">Mincha</button>
+            <button type="button"
+                onclick="event.stopPropagation(); window.setupView('arvit'); window.toggleFabMenu()">Arvit</button>
+            <button type="button"
+                onclick="event.stopPropagation(); window.setupView('birkat'); window.toggleFabMenu()">Birkat
+                HaMazon</button>
+            <button type="button"
+                onclick="event.stopPropagation(); window.setupView('haderech'); window.toggleFabMenu()">Tefilat
+                HaDerech</button>
+        </div>
+    </div>
+
+    <!-- IN-PRAYER SECTION NAVIGATION FAB -->
+    <button id="section-nav-fab" type="button" onclick="window.openCurrentPrayerSections()" title="Jump to Section"
+        style="position:fixed; bottom:150px; left:25px; width:45px; height:45px; border-radius:50%; background:#fbbf24; color:black; border:none; font-size:1.2rem; font-weight:bold; cursor:pointer; z-index:10001; box-shadow:0 4px 15px rgba(0,0,0,0.3); display:none; align-items:center; justify-content:center;">≡</button>
+
+    <!-- Thank You View (Subscribe Success) -->
+    <section id="thank-you-view" class="view hidden">
+        <div class="glass-card" style="text-align: center; padding: 40px; margin-top: 50px;">
+            <div style="font-size: 4rem; margin-bottom: 10px;">🎉</div>
+            <h2>Thank You for Subscribing!</h2>
+            <p style="font-size: 1.2rem; margin: 20px 0;">You are now part of the Eli's Prayers community.</p>
+            <p style="opacity: 0.8;">We'll keep you updated with new features and Torah insights.</p>
+            <button onclick="window.goHome()"
+                style="margin-top: 30px; padding: 12px 25px; background: var(--gold); border: none; border-radius: 25px; font-weight: bold; cursor: pointer; color: black;">Back
+                Home</button>
+        </div>
+    </section>
+
+    <!-- Placeholder Views to prevent Empty Page/Floating Footer -->
+    <section id="faq-view" class="view hidden">
+        <div class="glass-card" style="padding: 30px;">
+            <h2>❓ Frequently Asked Questions</h2>
+            <div style="margin-top: 20px;">
+                <h3>When will Tehillim be added?</h3>
+                <p>We are working on it! Expect it in the next update.</p>
+                <br>
+                <h3>How do I change the text size?</h3>
+                <p>Use the A+ / A- buttons in the top header.</p>
+            </div>
+            <button onclick="window.goHome()"
+                style="margin-top: 30px; padding: 10px 20px; border: 1px solid white; background: rgba(255,255,255,0.1); color: white; border-radius: 8px; cursor: pointer;">Back
+                Home</button>
+        </div>
+    </section>
+
+    <section id="resources-view" class="view hidden">
+        <div class="glass-card" style="padding: 30px;">
+            <h2>📚 Resources</h2>
+            <p>Helpful links and downloads coming soon.</p>
+            <button onclick="window.goHome()"
+                style="margin-top: 30px; padding: 10px 20px; border: 1px solid white; background: rgba(255,255,255,0.1); color: white; border-radius: 8px; cursor: pointer;">Back
+                Home</button>
+        </div>
+    </section>
+
+    <!-- =====================================================
+     NUCLEAR CSS OVERRIDE - LOADED LAST = HIGHEST PRIORITY
+     ===================================================== -->
+    <style>
+        /* ===== GAP FIX ===== */
+        header.navbar {
+            height: 90px !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 9999 !important;
+        }
+
+        #main-container,
+        main.content-area,
+        .content-area {
+            margin-top: 95px !important;
+            padding-top: 0 !important;
+        }
+
+        .view,
+        .home-container,
+        .container,
+        section.view,
+        #home-view,
+        #prayer-view,
+        #birkat-view,
+        #meein-view,
+        #haderech-view {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
+        .welcome-banner,
+        .home-left,
+        .home-right,
+        .weather-section,
+        #home-zmanim-container,
+        .grid-menu {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        /* ===== CLOCK - Fits in header ===== */
+        .clock-wrapper {
+            transform: scale(0.65) !important;
+            transform-origin: center !important;
+            margin: 0 !important;
+            padding: 5px 10px !important;
+        }
+
+        /* ===== TEXT SIZE - ONLY prayer paragraphs ===== */
+        /* Prayer text scales with --prayer-font-size */
+        .prayer-paragraph,
+        #prayer-text .prayer-paragraph,
+        .prayer-content .prayer-paragraph {
+            font-size: var(--prayer-font-size, 1.4rem) !important;
+        }
+
+        /* Optional/highlighted sections ALSO scale */
+        .optional-prayer,
+        .prayer-instruction {
+            font-size: var(--prayer-font-size, 1.4rem) !important;
+        }
+
+        /* Titles and headers: FIXED SIZE - never scale */
+        .prayer-main-title,
+        .prayer-header,
+        .prayer-subtitle,
+        h2.prayer-main-title,
+        h3.prayer-header,
+        h4.prayer-subtitle,
+        #prayer-view h2,
+        #prayer-view h3,
+        #prayer-view h4 {
+            font-size: 1.1rem !important;
+        }
+
+        /* ===== BOOK ICON - Higher position ===== */
+        #prayer-fab-container {
+            bottom: 130px !important;
+            left: 20px !important;
+            z-index: 10000 !important;
+        }
+
+        /* ===== SECTION NAV FAB (hamburger) ===== */
+        #section-nav-fab {
+            display: none !important;
+        }
+
+        #prayer-view:not(.hidden)~#section-nav-fab,
+        body:has(#prayer-view:not(.hidden)) #section-nav-fab {
+            display: flex !important;
+            position: fixed !important;
+            bottom: 180px !important;
+            left: 25px !important;
+            width: 50px !important;
+            height: 50px !important;
+            z-index: 10001 !important;
+        }
+
+        /* ===== PARCHMENT MODE ===== */
+        body.parchment-active .prayer-content-wrapper,
+        body.parchment-active #prayer-view .glass-card {
+            background: linear-gradient(to bottom, #f4ead5 0%, #e8dcc0 50%, #f4ead5 100%) !important;
+            border: 2px double #c4a775 !important;
+        }
+
+        body.parchment-active .prayer-content-wrapper *,
+        body.parchment-active #prayer-text,
+        body.parchment-active #prayer-text * {
+            color: #3d2c1e !important;
+        }
+
+        /* ===== EASY ACCESS TOOLBAR - Compact ===== */
+        #easy-access-toolbar {
+            position: sticky !important;
+            top: 90px !important;
+            z-index: 999 !important;
+            padding: 8px !important;
+            gap: 5px !important;
+        }
+
+        #easy-access-toolbar button {
+            padding: 6px 10px !important;
+            font-size: 0.85rem !important;
+            min-width: auto !important;
+        }
+    </style>
+</body>
+
+
+
+</html>
+<!-- SUBSCRIPTION POPUP WIDGET (DISABLED by User Request) -->
+<!-- <div data-key='Popup Subscription ' class='ft' id='ft4uf5i1c'></div>
+<script src='https://wdg.fouita.com/widgets/0x3b063c.js'></script> -->
